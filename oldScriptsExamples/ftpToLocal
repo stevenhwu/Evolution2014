@@ -1,0 +1,64 @@
+##### Method 1 #####
+## Use lftp to mirror over sftp with ssh login
+## Does not work with X-CD at moment
+SFTPAddress="sftp://evo14@127.0.0.1/home/evo14/EvoPresentation/"
+LocalMirror="/home/sw167/Desktop/Evo14LocalMirror/"
+
+
+lftp -c "set sftp:connect-program 'ssh -a -x'; mirror -v --use-pget-n=5 --parallel=5 $SFTPAddress $LocalMirror;"
+
+#lftp -c "set sftp:connect-program 'ssh -a -x -i /home/sw167/.ssh/id_dsa'; mirror -v --use-pget-n=5 --parallel=5 $SFTPAddress $LocalMirror; jobs -v"
+#-L --use-pget-n=5 --parallel=5 /srv/src/ /mnt/dest/; quit" 
+# jobs -v"
+
+##### Method 2 #####
+## with password (bad)
+## store in .netrc in plain text format (bad bad)
+## syntax
+## machine 127.0.0.1
+##        login evo14
+##        password password
+# '%2f' is an escaped '/
+# no "/" at local to avoid "~"
+#FTPAddress="ftp://evo14@127.0.0.1/EvoPresentation/"
+LocalMirror="/home/sw167/Desktop/Evo14LocalMirror/EvoPresentation"
+
+FTPAddress="ftp://evo2014@184.175.78.150/"
+lftp -c "mirror -v --use-pget-n=5 --parallel=5 $FTPAddress $LocalMirror;"
+
+### ~/.netrc
+#machine 184.175.78.150
+#        login evo2014
+#        password Raleigh123!
+
+
+#### potential error and fix
+#Fatal error: Certificate verification: Not trusted
+#To disable certificate verification in lftp,
+#$ cat ~/.lftp/rc 
+#set ssl:verify-certificate no
+
+##### Method 3 #####
+cd $LocalMirror
+wget -nH  -m $FTPAddress
+
+/usr/bin/wget -nH -t3 -T30 --ftp-user=evo2014 --ftp-password=Raleigh123! -m ftp://184.175.78.150
+
+
+#######################
+#### post process into ROOM folder
+ROOMLIST="R301A  R301B  R302B"
+for r in $ROOMLIST;
+  do
+    if [ ! -d "${LocalMirror}/${r}" ]
+    then
+      mkdir -p ${LocalMirror}/$r;
+
+    fi
+  rsync -a ${LocalMirror}/${r}_* ${LocalMirror}/${r};
+done
+
+
+
+
+

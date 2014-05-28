@@ -1,0 +1,81 @@
+
+hostname -I
+
+ifconfig | grep 'inet ' | cut -d: -f2 | awk '{ print $2}'
+
+
+ifconfig wlp3s0| grep 'inet ' | cut -d: -f2 | awk '{ print $2}'
+
+ifconfig | awk -F ":"  '/inet /{split($1,a," ");print a[2]}'
+
+ifconfig | awk -F ' *|:' '/inet /{print $2}'
+
+
+ifconfig
+uname -a
+
+
+##How am I going to get the room number? unless I know the ethernet port??
+##Unless we can change the uname? but it's bound to the machine
+
+
+##### Method 1 #####
+## Use lftp to reverse mirror over sftp with ssh login
+ROOMLIST="R301A  R301B  R302B  R302B"
+RoomIP="10.0.5.64"
+for r in $ROOMLIST;
+  do
+  ROOM="sftp://nescent@${RoomIP}:/Users/nescent/Desktop/evo14/${r}";
+#  ROOM="sftp://evo14@127.0.0.1/home/evo14/${r}/";
+  LocalMirror="/home/sw167/Desktop/Evo14LocalMirror/EvoPresentation/${r}";
+  
+  lftp -c "set sftp:connect-program 'ssh -a -x'; mirror -v -R --use-pget-n=5 --parallel=5  $LocalMirror $ROOM;";
+done;
+
+## use hashmap
+declare -A RoomIPList
+RoomIPList=( ["R301A"]="10.0.5.64" ["R301B"]="10.0.5.64" ["R302B"]="10.0.5.64" )
+for r in "${!RoomList[@]}";
+  do
+  printf "%s\t%s\n" "$r" "${RoomIPList[$r]}";
+  RoomSFTP="sftp://nescent@${RoomIPList[$r]}:/Users/nescent/Desktop/evo14/${r}";
+  LocalMirror="/home/sw167/Desktop/Evo14LocalMirror/EvoPresentation/${r}/";
+  lftp -c "set sftp:connect-program 'ssh -a -x'; mirror -v -R --use-pget-n=5 --parallel=5  $LocalMirror $RoomSFTP;";
+#  echo $i;
+#  echo ${RoomList[$i]};
+done;
+
+
+
+
+##### Method 2 ####
+## use rsync
+ROOMLIST="R301A  R301B  R302B  R302B"
+RoomIP="10.0.5.64 10.0.5.64"
+for r in $ROOMLIST;
+  do
+  Room="nescent@${RoomIP}:/Users/nescent/Desktop/evo14/${r}";
+#  ROOM="sftp://evo14@127.0.0.1/home/evo14/${r}/";
+  LocalMirror="/home/sw167/Desktop/Evo14LocalMirror/EvoPresentation/${r}";
+  
+  rsync -avz ${LocalMirror} ${Room};
+done;
+
+
+
+## even better, use hashmap
+declare -A RoomIPList
+RoomIPList=( ["R301A"]="10.0.5.64" ["R301B"]="10.0.5.64" ["R302B"]="10.0.5.64" )
+for r in "${!RoomIPList[@]}";
+  do
+  printf "%s\t%s\n" "$r" "${RoomIPList[$r]}";
+  Room="nescent@${RoomIPList[$r]}:/Users/nescent/Desktop/evo14/${r}/";
+  LocalMirror="/home/sw167/Desktop/Evo14LocalMirror/EvoPresentation/${r}/";
+  rsync -az ${LocalMirror} ${Room};
+#  echo $i;
+#  echo ${RoomList[$i]};
+done;
+
+
+## dry run
+rsync -aivnz ${LocalMirror} ${ROOM};

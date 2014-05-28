@@ -1,0 +1,18 @@
+sudo service vsftpd start
+
+sudo systemctl enable vsftpd
+
+change firewall
+###############
+edit vsftpd.conf file
+
+# Allow anonymous FTP? (Beware - allowed by default if you comment this out).
+anonymous_enable=NO
+
+
+#### potential error and fix
+#Fatal error: Certificate verification: Not trusted
+#To disable certificate verification in lftp,
+#$ cat ~/.lftp/rc 
+#set ssl:verify-certificate no
+
