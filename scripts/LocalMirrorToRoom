@@ -1,0 +1,11 @@
+#!/bin/bash
+## rsync from materials server to each room
+#echo ${MapRoomToIP[@]}
+for r in "${!MapRoomToIP[@]}";
+  do
+  printf "rsync from localMirror to %s\tIP: %s\n" "$r" "${MapRoomToIP[$r]}";
+  Room="nescent@${MapRoomToIP[$r]}:/Users/nescent/Desktop/evo14/${r}/";
+  LocalMirror="${LocalServer}/${r}/";
+  rsync -az ${LocalMirror} ${Room};
+done;
+

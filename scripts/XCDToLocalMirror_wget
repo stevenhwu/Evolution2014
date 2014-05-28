@@ -1,0 +1,31 @@
+#!/bin/bash
+## use wget to mirror X-CD server to local materials server
+if [ ! -d $LocalServerCache ]
+  then
+  mkdir -p $LocalServerCache
+fi
+echo "wget from XCD to LocalServer";
+#wget -nH -q -t3 -T30 --ftp-password=Raleigh123! -m $XCDFTPAddress -P $LocalServerCache"
+wget -nH -q -t3 -T30 --ftp-password=Raleigh123! -r -N -l inf $XCDFTPAddress -P $LocalServerCache -a "${LocalServerCache}/wgetLog"
+#wget -nH -nv -t3 -T30 --ftp-password=Raleigh123! -m $XCDFTPAddress -P $LocalServerCache -a "${LocalServerCache}/wgetLog"
+
+
+## wget will keep updating .listing files from the server
+## -m --mirror
+##   Turn on options suitable for mirroring.  This option turns on recursion and time-stamping, sets infinite recursion
+##   depth and keeps FTP directory listings.  It is currently equivalent to -r -N -l inf --no-remove-listing.
+## --no-remove-listing might not be necessary
+
+
+#### post process into ROOM folder
+for r in "${!MapRoomToIP[@]}";
+  do
+    if [ ! -d "${LocalServer}/${r}" ]
+    then
+      mkdir -p ${LocalServer}/$r;
+
+    fi
+  rsync -az ${LocalServerCache}/${r}_* ${LocalServer}/${r};
+done
+
+

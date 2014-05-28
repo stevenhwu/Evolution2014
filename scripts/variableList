@@ -1,0 +1,10 @@
+#!/bin/bash
+export scriptDir="/home/sw167/Evolution2014/scripts/"
+export LocalServerCache="/home/sw167/Desktop/Evo14LocalMirror/EvoPresentation/Cache"
+export LocalServer="/home/sw167/Desktop/Evo14LocalMirror/EvoPresentation"
+
+export XCDFTPAddress="ftp://evo2014@184.175.78.150/"
+. ${scriptDir}/MapRoomToIP
+
+. ${scriptDir}/XCDToLocalMirror
+. ${scriptDir}/LocalMirrorToRoom

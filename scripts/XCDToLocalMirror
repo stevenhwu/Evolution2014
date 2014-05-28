@@ -1,0 +1,43 @@
+#!/bin/bash
+## use lftp to mirror X-CD server to local materials server
+if [ ! -d $LocalServerCache ]
+  then
+  mkdir -p $LocalServerCache
+fi
+echo "SFTP from XCD to LocalServer";
+lftp -c "mirror --use-pget-n=5 --parallel=5 $XCDFTPAddress $LocalServerCache;"
+#lftp -c "mirror --log=${LocalServerCache}/sftpLog --use-pget-n=5 --parallel=5 $XCDFTPAddress $LocalServerCache;"
+
+## note: no "/" at local to avoid "~"
+
+## with password (bad)
+## store in ~/.netrc in plain text format (bad bad)
+## syntax
+## machine 127.0.0.1
+##        login evo14
+##        password password
+# '%2f' is an escaped '/
+
+### ~/.netrc
+#machine 184.175.78.150
+#        login evo2014
+#        password Raleigh123!
+
+#### potential error and fix
+#Fatal error: Certificate verification: Not trusted
+#To disable certificate verification in lftp,
+#$ cat ~/.lftp/rc 
+#set ssl:verify-certificate no
+
+#### post process into ROOM folder
+for r in "${!MapRoomToIP[@]}";
+  do
+    if [ ! -d "${LocalServer}/${r}" ]
+    then
+      mkdir -p ${LocalServer}/$r;
+
+    fi
+  rsync -az ${LocalServerCache}/${r}_* ${LocalServer}/${r};
+done
+
+
