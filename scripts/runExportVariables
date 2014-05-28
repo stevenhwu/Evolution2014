@@ -4,7 +4,4 @@ export LocalServerCache="/home/sw167/Desktop/Evo14LocalMirror/EvoPresentation/Ca
 export LocalServer="/home/sw167/Desktop/Evo14LocalMirror/EvoPresentation"
 
 export XCDFTPAddress="ftp://evo2014@184.175.78.150/"
-. ${scriptDir}/MapRoomToIP
-
-. ${scriptDir}/XCDToLocalMirror
-. ${scriptDir}/LocalMirrorToRoom
+. ${scriptDir}/exportMapping

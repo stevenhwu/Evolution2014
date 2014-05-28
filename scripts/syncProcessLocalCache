@@ -1,0 +1,33 @@
+#!/bin/bash
+
+today=`date +%d`
+
+## for testing only
+today=`date -d 20140621 +%d`
+## end testing
+
+dateCode="${MapDateToCode[${today}]}"
+oldDateCode=`expr $dateCode - 1`
+#oldDateCode=`echo "$dateCode-1" | bc`
+
+#### post process into ROOM folder
+for r in "${!MapRoomToIP[@]}";
+  do
+    if [ ! -d "${LocalServer}/${r}" ]
+    then
+      mkdir -p ${LocalServer}/$r;
+    fi
+
+  #echo -e "=====Run ${dateCode}*_${r}=====${oldDateCode}=====\n\n"
+  removeOld=`ls ${LocalServer}/${r}/ | grep -E "${oldDateCode}._"`
+ 
+  for old in ${removeOld}; do 
+    rm -r ${LocalServer}/${r}/${old}/;
+  done
+
+#  rsync -arzivvv --progress  --include "*${dateCode}*_${r}*" --exclude "*" --delete-excluded ${LocalServerCache}/ ${LocalServer}/${r};
+#  rsync -arzivvv --progress  --include "${dateCode}*_${r}" --exclude "${oldDateCode}*" --delete-excluded ${LocalServerCache}/ ${LocalServer}/${r}/;
+  rsync -arz --delete ${LocalServerCache}/${dateCode}?_${r} ${LocalServer}/${r};
+done
+
+

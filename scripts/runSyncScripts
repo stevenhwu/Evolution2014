@@ -1,0 +1,4 @@
+#!/bin/bash
+#. ${scriptDir}/syncXCDToLocalMirror
+. ${scriptDir}/syncProcessLocalCache
+#. ${scriptDir}/syncLocalMirrorToRoom

@@ -1,0 +1,5 @@
+#!/bin/bash
+export scriptDir="/home/sw167/Evolution2014/scripts/"
+. ${scriptDir}/runExportVariables
+. ${scriptDir}/runSyncScripts
+

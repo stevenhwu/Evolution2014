@@ -29,15 +29,3 @@ lftp -c "mirror --use-pget-n=5 --parallel=5 $XCDFTPAddress $LocalServerCache;"
 #$ cat ~/.lftp/rc 
 #set ssl:verify-certificate no
 
-#### post process into ROOM folder
-for r in "${!MapRoomToIP[@]}";
-  do
-    if [ ! -d "${LocalServer}/${r}" ]
-    then
-      mkdir -p ${LocalServer}/$r;
-
-    fi
-  rsync -az ${LocalServerCache}/${r}_* ${LocalServer}/${r};
-done
-
-
