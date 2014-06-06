@@ -1,7 +1,6 @@
 sudo yum install lftp vsftpd
 
 sudo service vsftpd start
-
 sudo systemctl enable vsftpd
 
 change firewall
@@ -13,9 +12,12 @@ sudo vim /etc/vsftpd/vsftpd.conf
 anonymous_enable=NO
 
 
-#### potential error and fix
-#Fatal error: Certificate verification: Not trusted
-#To disable certificate verification in lftp,
-#$ cat ~/.lftp/rc 
-#set ssl:verify-certificate no
+##### potential error and fix
+### Fatal error: Certificate verification: Not trusted
+### To disable certificate verification in lftp,
+
+# echo "set ssl:verify-certificate no" > ~/.lftp/rc
+
+
+
 
