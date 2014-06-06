@@ -1,12 +1,15 @@
+sudo yum install lftp vsftpd
+
 sudo service vsftpd start
 
 sudo systemctl enable vsftpd
 
 change firewall
 ###############
-edit vsftpd.conf file
+sudo vim /etc/vsftpd/vsftpd.conf 
 
 # Allow anonymous FTP? (Beware - allowed by default if you comment this out).
+# Change to NO
 anonymous_enable=NO
 
 

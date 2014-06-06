@@ -1,7 +1,7 @@
 #!/bin/bash
-export scriptDir="/home/evo14/Evolution2014/scripts/"
-export LocalServerCache="/home/evo14/Desktop/Evo14LocalMirror/EvoPresentation/Cache"
-export LocalServer="/home/evo14/Desktop/Evo14LocalMirror/EvoPresentation"
+export scriptDir="${HOME}/Evolution2014/scripts"
+export LocalServer="${HOME}/Desktop/Evo14LocalMirror/EvoPresentation"
+export LocalServerCache="${LocalServer}/Cache"
 
 export XCDFTPAddress="ftp://evo2014@184.175.78.150/"
 . ${scriptDir}/exportMapping

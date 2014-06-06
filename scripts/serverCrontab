@@ -5,4 +5,5 @@
 PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin"
 Logfile="/home/sw167/Desktop/Evo14LocalMirror/EvoPresentation/serverlog_"
 #*/30 * * * * /home/sw167/Evolution2014/scripts/variableList > /home/sw167/Desktop/Evo14LocalMirror/EvoPresentation/crontabLog 2>&1
-*/30 6-19 * * * /home/sw167/Evolution2014/scripts/variableList > ${Logfile}`date +\%m\%d_\%H_\%M` 2>&1
+*/30 6-19 * * * /home/sw167/Evolution2014/scripts/runAll > ${Logfile}`date +\%m\%d_\%H_\%M` 2>&1
+5 0 * * * /home/sw167/Evolution2014/scripts/runAll > ${Logfile}`date +\%m\%d_\%H_\%M` 2>&1
