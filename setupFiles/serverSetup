@@ -1,23 +1,34 @@
+#!/bin/sh
+## Everything here should be done already
+
+## enable ssh
+sudo systemctl enable sshd
+
+## ftp
 sudo yum install lftp vsftpd
 
 sudo service vsftpd start
 sudo systemctl enable vsftpd
 
-change firewall
-###############
+##### ftp/vsftp config
 sudo vim /etc/vsftpd/vsftpd.conf 
 
 # Allow anonymous FTP? (Beware - allowed by default if you comment this out).
 # Change to NO
 anonymous_enable=NO
 
-
-##### potential error and fix
+### potential error and fix
 ### Fatal error: Certificate verification: Not trusted
 ### To disable certificate verification in lftp,
-
 # echo "set ssl:verify-certificate no" > ~/.lftp/rc
 
+########## end ftp/vsftp
 
 
+## server name
+less ~/.bashrc
 
+
+##### Change manually
+## change firewall
+## Black screen time
