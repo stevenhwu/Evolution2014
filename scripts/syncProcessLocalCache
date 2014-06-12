@@ -10,6 +10,8 @@ dateCode="${MapDateToCode[${today}]}"
 oldDateCode=`expr $dateCode - 1`
 #oldDateCode=`echo "$dateCode-1" | bc`
 
+echo -e "Preprocess files at local Server\n";
+
 #### post process into ROOM folder
 for r in "${!MapRoomToIP[@]}";
   do

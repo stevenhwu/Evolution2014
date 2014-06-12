@@ -4,7 +4,7 @@
 for r in "${!MapRoomToIP[@]}";
   do
   printf "rsync from localMirror to %s\tIP: %s\n" "$r" "${MapRoomToIP[$r]}";
-  Room="nescent@${MapRoomToIP[$r]}:/Users/nescent/Desktop/evo14/${r}/";
+  Room="admin@${MapRoomToIP[$r]}:/Users/admin/Desktop/${r}/";
   LocalMirror="${LocalServer}/${r}/";
   rsync -az ${LocalMirror} ${Room};
 done;
