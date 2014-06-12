@@ -3,5 +3,9 @@ export scriptDir="${HOME}/Evolution2014/scripts"
 export LocalServer="${HOME}/Desktop/Evo14LocalMirror/EvoPresentation"
 export LocalServerCache="${LocalServer}/Cache"
 
+if [ ! -d $LocalServerCache ]
+  then mkdir -p $LocalServerCache;
+fi
+
 export XCDFTPAddress="ftp://evo2014@184.175.78.150/"
 . ${scriptDir}/exportMapping

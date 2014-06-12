@@ -26,6 +26,6 @@ lftp -c "mirror --use-pget-n=5 --parallel=5 $XCDFTPAddress $LocalServerCache;"
 #### potential error and fix
 #Fatal error: Certificate verification: Not trusted
 #To disable certificate verification in lftp,
-#$ cat ~/.lftp/rc 
-#set ssl:verify-certificate no
+#mkdir ~/.lftp/
+#echo "set ssl:verify-certificate no" > ~/.lftp/rc
 
