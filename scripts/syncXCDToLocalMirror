@@ -5,7 +5,9 @@ if [ ! -d $LocalServerCache ]
   mkdir -p $LocalServerCache
 fi
 echo "SFTP from XCD to LocalServer";
-lftp -c "mirror --use-pget-n=5 --parallel=5 --loop $XCDFTPAddress $LocalServerCache;"
+#lftp -c "mirror --use-pget-n=10 --parallel=10  $XCDFTPAddress $LocalServerCache;"
+#--loop
+lftp -c "mirror --ignore-time --verbose=2 --log=$LocalServerCache/lftpLog_${dateTime} --use-pget-n=10 --parallel=10  $XCDFTPAddress $LocalServerCache;"
 #lftp -c "mirror --log=${LocalServerCache}/sftpLog --use-pget-n=5 --parallel=5 $XCDFTPAddress $LocalServerCache;"
 
 ## note: no "/" at local to avoid "~"
