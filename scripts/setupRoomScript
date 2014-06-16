@@ -1,56 +1,56 @@
 #!/bin/bash
 ## don't think this works for mac hostname -I
-ServerIP="192.168.1.199"
-ServerIP="152.3.59.21"
-serverRecord="/home/sw167/Desktop/Evo14LocalMirror/EvoPresentation/RoomInfo/"
+LaptopServerIP="152.3.59.21"
+ServerIP="152.3.59.171 152.3.59.187"
+serverRecord="/home/evo14/Desktop/Evo14LocalMirror/RoomInfo/"
 Room=$1
 
-tempFile="/Users/admin/${1}_info"
-
-if [ -n "${1}" ]
-  then 
-  echo "Setup Room:${1}" >> ${tempFile}
-else
-  echo "Please provide room code!! Exit script"
-  exit 6
-fi
-# One of these should work
-#best
-#ifconfig en0| grep 'inet ' | cut -d: -f2 | awk '{ print $2}'
-
-#ifconfig | grep 'inet ' | cut -d: -f2 | awk '{ print $2}' > ${tempFile}
-#ifconfig en0| grep 'inet ' | cut -d: -f2 | awk '{ print $2}'
-#ifconfig | awk -F ":"  '/inet /{split($1,a," ");print a[2]}'
-#ifconfig | awk -F ' *|:' '/inet /{print $2}'
-#if not, go back to the old way
-
-echo "IP: `ipconfig getifaddr en0`"
-ipconfig getifaddr en0 >> $tempFile
-
+IP=`ipconfig getifaddr en0`
 #en1 for wireless
 
-## send IP to server
 
+#["301A"]="152.3.59.2"
+if [ ! -n "${1}" ]
+  then 
+    echo "Please provide room code!! Exit script"
+    exit 6
+fi
+#ifconfig en0| grep 'inet ' | cut -d: -f2 | awk '{ print $2}'
+
+mkdir -p /Users/admin/Desktop/${1}
+tempFile="/Users/admin/${1}_info"
+
+echo "IP: $IP"
+echo "[\"${Room}\"]=\"${IP}\"" >$tempFile
+
+
+## send IP to server
 
 ## add pub key to authorized_keys
 #cat `curl -sk3 -O https://raw.githubusercontent.com/stevenhwu/testOnly/master/ssh` > testFile
 #curl -sk3 -O https://raw.githubusercontent.com/stevenhwu/testOnly/master/ssh | cat ssh > test
 
-PAT=`curl -o - -sk3 -O https://raw.githubusercontent.com/stevenhwu/testOnly/master/ssh`
-#grep $PAT  ~/.ssh/authorized_keys
+ALLPATS=`curl -o - -sk3 -O https://raw.githubusercontent.com/stevenhwu/testOnly/master/ssh`
+IFS=$'\n'
+
 if  [ -f ~/.ssh/authorized_keys ]
 then
-  if grep -q "$PAT"  ~/.ssh/authorized_keys 
-  then
-    echo "Server's pubkey already exist, do nothing."
-  else
-    echo "NOT exist! appending"
-    echo $PAT >> ~/.ssh/authorized_keys
-  fi
+  for PAT in $ALLPATS 
+  do
+    if ! grep -q "$PAT"  ~/.ssh/authorized_keys 
+    then
+    #  echo "Server's pubkey already exist, do nothing."
+    #else
+      echo "NOT exist! appending server's pub key"
+      echo "$PAT" >> ~/.ssh/authorized_keys
+    fi
+  done
 else
-  echo "NOT exist! appending to new file"
-  echo $PAT >> ~/.ssh/authorized_keys
+  echo "Nothing exist! appending to new file"
+  echo "$ALLPATS" >> ~/.ssh/authorized_keys
 fi
+
+unset IFS
 
 ## generate ssh key, if it doesn't exist
 if [ -f ~/.ssh/id_dsa.pub ]
@@ -68,7 +68,13 @@ fi
 
 ## copy the ssh to server
 #echo "scp file:${tempFile}"
-scp -o "StrictHostKeyChecking=no" ${tempFile} sw167@${ServerIP}:${serverRecord}
+for ip in $ServerIP; do
+#  echo $ip
+#  echo "evo14@${ip}:${serverRecord}"
+  #scp -o "StrictHostKeyChecking=no" ${tempFile} evo14@${ip}:${serverRecord}
+  rsync -e 'ssh -o StrictHostKeyChecking=no' -az  ${tempFile} evo14@${ip}:${serverRecord}
+  break
+done
 ## check crontab -l, modified is accordingly
 
 
