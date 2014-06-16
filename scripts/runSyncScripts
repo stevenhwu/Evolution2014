@@ -1,5 +1,7 @@
 #!/bin/bash
-. ${scriptDir}/syncXCDToLocalMirror_wget
-. ${scriptDir}/syncXCDToLocalMirror 2>&1 > lftpLog
+#. ${scriptDir}/syncXCDToLocalMirror_wget
+. ${scriptDir}/syncXCDToLocalMirror
 . ${scriptDir}/syncProcessLocalCache
 . ${scriptDir}/syncLocalMirrorToRoom
+#. ${scriptDir}/syncLocalMirrorToRoom_sftp
+
