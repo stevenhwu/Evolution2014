@@ -1,23 +1,15 @@
 #!/bin/bash
 ## use lftp to mirror X-CD server to local materials server
-if [ ! -d $LocalServerCache ]
-  then
-  mkdir -p $LocalServerCache
-fi
 echo "SFTP from XCD to LocalServer";
-#lftp -c "mirror --use-pget-n=10 --parallel=10  $XCDFTPAddress $LocalServerCache;"
-#--loop
-lftp -c "mirror --ignore-time --verbose=2 --log=$LocalServerCache/lftpLog_${dateTime} --use-pget-n=1 --parallel=5  $XCDFTPAddress $LocalServerCache;"
+lftp -c "mirror --parallel=5 --loop  $XCDFTPAddress $LocalServerCache;"
+
+#lftp -c "mirror --ignore-time --verbose=2 --log=$LocalServerCache/lftpLog_${dateTime} --use-pget-n=1 --parallel=5  $XCDFTPAddress $LocalServerCache;"
 #lftp -c "mirror --log=${LocalServerCache}/sftpLog --use-pget-n=5 --parallel=5 $XCDFTPAddress $LocalServerCache;"
 
 ## note: no "/" at local to avoid "~"
 
 ## with password (bad)
 ## store in ~/.netrc in plain text format (bad bad)
-## syntax
-## machine 127.0.0.1
-##        login evo14
-##        password password
 # '%2f' is an escaped '/
 
 ### ~/.netrc

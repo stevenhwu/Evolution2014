@@ -3,10 +3,11 @@
 # crontab serverCrontab; 
 #######################################################
 PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin"
-Logfile="/Desktop/Evo14LocalMirror/EvoPresentation/serverlog_"
+Logfile="/home/evo14/Desktop/Evo14LocalMirror/Log/"
 #*/30 * * * * /home/sw167/Evolution2014/scripts/variableList > /home/sw167/Desktop/Evo14LocalMirror/EvoPresentation/crontabLog 2>&1
 #*/30 6-19 * * * ${Home}/Evolution2014/scripts/runAll > ${HOME}${Logfile}`date +\%m\%d_\%H_\%M` 2>&1
 #5 0 * * * /home/sw167/Evolution2014/scripts/runAll > ${Logfile}`date +\%m\%d_\%H_\%M` 2>&1
 #50 * * * * echo $Logfile > ${HOME}/Desktop/testsss
+*/30 * * * * ${Home}/Evolution2014/scripts/runSyncXCD > "${Logfile}SyncXCD_`date +\%m\%d_\%H_\%M`" 2>&1
 
 
