@@ -1,11 +1,20 @@
 #!/bin/bash
 ## use sftp to reverse mirror materials server to each room
 #echo ${MapRoomToIP[@]}
-for r in "${!MapRoomToIP[@]}";
+
+
+if [ ! -n "${1}" ]
+  then
+    RoomList="${!MapRoomToIP[@]}"
+  else
+    RoomList=$1
+fi
+
+for r in $RoomList;
   do
   printf "sftp from localMirror to %s\tIP: %s\n" "$r" "${MapRoomToIP[$r]}";
   RoomSFTP="sftp://admin@${MapRoomToIP[$r]}:/Users/admin/Desktop/${r}";
   LocalMirror="${LocalServer}/${r}/";
-  lftp -c "set sftp:connect-program 'ssh -a -x'; mirror -v -R --use-pget-n=5 --parallel=5  $LocalMirror $RoomSFTP;";
+  lftp -c "set sftp:connect-program 'ssh -a -x'; mirror -v -R -L --parallel=3  $LocalMirror $RoomSFTP;";
 done;
 

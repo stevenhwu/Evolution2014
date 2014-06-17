@@ -1,0 +1,9 @@
+There are several scripts to ensure all presentation materials sync properly. The most useful one are the follow.
+
+runAll: Sync materials from XCD, preprocess them locally, then rsync to each room.
+
+runPushToRoom:Sync presentation materials to presentation room(s).
+ - Without any parameters, this scripts will sync all presentation materials to each room.
+ - Take 1 parameter which is the room number (e.g. 301A). Then this scripts will only sync the presentation materials for that room.
+
+runSyncXCD: Sync materials from XCD and preprocess the files. This one runs frequently in crontab. Shouldn't need to run this manually.
