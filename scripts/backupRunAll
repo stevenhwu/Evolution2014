@@ -1,0 +1,9 @@
+#!/bin/bash
+export scriptDir="${HOME}/Evolution2014/scripts/"
+. ${scriptDir}/exportAllVariables
+. ${scriptDir}/syncXCDToLocalMirror_wget
+#. ${scriptDir}/syncXCDToLocalMirror
+. ${scriptDir}/syncProcessLocalCache
+#. ${scriptDir}/syncLocalMirrorToRoom
+. ${scriptDir}/syncLocalMirrorToRoom_sftp
+

@@ -19,7 +19,7 @@ This folders contain all the scripts and other setup file. This is also on githu
 ~/Desktop/Evo14LocalMirror/Cache		Presentation downloaded from XCD
 ~/Desktop/Evo14LocalMirror/RoomInfo	Store room-IP info from each presentation laptop
 
-201 – 402	Presentation room. Each room should only have the symbolic link which points to the presentations for that day only.
+201 – 402,BalC		Presentation room. Each room should only have the symbolic link which points to the presentations for that day only.
 
 
 ===================================
@@ -41,6 +41,7 @@ syncProcessLocalCache: Preprosess presentations at local mirror. Create symbolic
 
 syncXCDToLocalMirror: sync presentations from XCD server to local server usin lftp
 syncXCDToLocalMirror_wget: sync presentations from XCD server to local server usin wget
+
 
 variableSessions: Map presentation ID to session number
 variablesEvoServer: Basic server info

@@ -3,11 +3,13 @@
 if [ ! -n "${1}" ]
 then
   today=`date +%d`
+  today=`date -d 20140622 +%d`
 else
   today=`date -d ${1} +%d`
 fi
-#echo $today
-#echo ${MapDateToCode[21]}
+
+echo $today
+echo ${MapDateToCode[$today]}
 #echo ${MapDateToCode[22]}
 ## end testing
 
