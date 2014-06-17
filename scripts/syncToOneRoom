@@ -1,0 +1,20 @@
+#!/bin/bash
+## rsync from materials server to each room
+#echo ${MapRoomToIP[@]}
+
+r=$1
+
+if [ ! -n "${1}" ]
+  then 
+    echo "Please provide room code!! Exit script"
+    exit 6
+fi
+#ifconfig en0| grep 'inet ' | cut -d: -f2 | awk '{ print $2}'
+
+
+
+  printf "rsync from localMirror to %s\tIP: %s\n" "$r" "${MapRoomToIP[$r]}";
+  Room="admin@${MapRoomToIP[$r]}:/Users/admin/Desktop/${r}/";
+  LocalMirror="${LocalServer}/${r}/";
+  rsync -az ${LocalMirror} ${Room};
+

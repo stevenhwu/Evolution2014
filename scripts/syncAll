@@ -1,6 +1,6 @@
 #!/bin/bash
 #. ${scriptDir}/syncXCDToLocalMirror_wget
-. ${scriptDir}/syncXCDToLocalMirror
+#. ${scriptDir}/syncXCDToLocalMirror
 . ${scriptDir}/syncProcessLocalCache
 . ${scriptDir}/syncLocalMirrorToRoom
 #. ${scriptDir}/syncLocalMirrorToRoom_sftp

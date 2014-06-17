@@ -1,9 +1,9 @@
 # alisa evoServerName="evo-primary"
 # alias evoServerName="evo-secondary"
 
-evoPrimaryIP="152.3.59.171"
-evoSecondaryIP="152.3.59.187"
-evoLaptopIP="152.3.59.21"
+export evoPrimaryIP="152.3.59.171"
+export evoSecondaryIP="152.3.59.187"
+export evoLaptopIP="152.3.59.21"
 
 
 alias sshPrimary='ssh evo14@$evoPrimaryIP'

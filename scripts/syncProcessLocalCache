@@ -1,9 +1,11 @@
 #!/bin/bash
-
 today=`date +%d`
 
 ## for testing only
-today=`date -d 20140621 +%d`
+today=`date -d 20140622 +%d`
+#echo $today
+#echo ${MapDateToCode[21]}
+#echo ${MapDateToCode[22]}
 ## end testing
 
 dateCode="${MapDateToCode[${today}]}"

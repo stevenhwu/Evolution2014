@@ -1,5 +1,4 @@
 #!/bin/bash
 export scriptDir="${HOME}/Evolution2014/scripts/"
-. ${scriptDir}/runExportVariables
-. ${scriptDir}/runSyncScripts
-
+#. ${scriptDir}/exportAllVariables
+. ${scriptDir}/syncAll

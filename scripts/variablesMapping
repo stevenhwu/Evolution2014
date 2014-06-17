@@ -1,13 +1,13 @@
 #!/bin/bash
 ## Map room number to IP address
-declare -A MapRoomToIP
+declare -Ax MapRoomToIP
 MapRoomToIP=(
 #["BalC"]=""
 #["201"]=""
 #["205"]=""
 #["206"]=""
-["301A"]="152.3.59.2"
-#["301B"]="192.168.1.135"
+#["301A"]="152.3.59.2"
+["301B"]="192.168.1.135"
 #["302A"]="10.0.5.64"
 #["302B"]=""
 #["302C"]=""
@@ -24,6 +24,7 @@ MapRoomToIP=(
 export MapRoomToIP
 
 ## Map date to folder code
+declare -x MapDateToCode
 MapDateToCode=(
 [20]=0
 [21]=1
@@ -32,4 +33,4 @@ MapDateToCode=(
 [24]=4
 )
 export MapDateToCode
-
+echo "Exporting mapping"

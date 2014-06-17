@@ -15,4 +15,5 @@ fi
 
 #export XCDFTPAddress="ftp://evo2014@184.175.78.150/"
 export XCDFTPAddress="ftp://Evo2014@xcdsystem.com/"
-. ${scriptDir}/exportMapping
+. ${scriptDir}/variablesMapping
+. ${scriptDir}/variableEvoServer
