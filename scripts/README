@@ -1,9 +1,47 @@
-There are several scripts to ensure all presentation materials sync properly. The most useful one are the follow.
+There are several scripts to ensure all presentations are synced properly. The most useful one are the follow.
 
-runAll: Sync materials from XCD, preprocess them locally, then rsync to each room.
+runAll: Sync presentations from XCD, preprocess them locally, then rsync to each room.
 
-runPushToRoom:Sync presentation materials to presentation room(s).
- - Without any parameters, this scripts will sync all presentation materials to each room.
- - Take 1 parameter which is the room number (e.g. 301A). Then this scripts will only sync the presentation materials for that room.
+runPushToRoom:Sync presentations to presentation room(s).
+ - Without any parameters, this scripts will sync all presentations to each room.
+ - Take 1 parameter which is the room number (e.g. 301A). Then this scripts will only sync the presentations for that room.
 
-runSyncXCD: Sync materials from XCD and preprocess the files. This one runs frequently in crontab. Shouldn't need to run this manually.
+runSyncXCD: Sync presentations from XCD and preprocess them locally. This one runs frequently in crontab. Shouldn't need to run this manually.
+
+===================================
+Folder structure
+Local server:
+~/Evolution2014
+This folders contain all the scripts and other setup file. This is also on github
+
+~/Desktop/Evo14LocalMirror/		Local Server
+~/Desktop/Evo14LocalMirror/Log		All log files from crontab
+~/Desktop/Evo14LocalMirror/Cache		Presentation downloaded from XCD
+~/Desktop/Evo14LocalMirror/RoomInfo	Store room-IP info from each presentation laptop
+
+201 – 402	Presentation room. Each room should only have the symbolic link which points to the presentations for that day only.
+
+
+===================================
+Other less useful one. We should not need to execute theses manually.
+
+
+exportAllVariables:Export all variables required to run these scripts
+
+serverCrontab
+serverSecondaryCrontab
+
+
+setupRoomScript: Setup presentation laptop
+
+syncLocalMirrorToRoom: sync presentations from local servers to each room/one room using rsync
+syncLocalMirrorToRoom_sftp: sync presentations from local servers to each room/one room using lftp/sftp
+
+syncProcessLocalCache: Preprosess presentations at local mirror. Create symbolic link and put them into the correct folder.
+
+syncXCDToLocalMirror: sync presentations from XCD server to local server usin lftp
+syncXCDToLocalMirror_wget: sync presentations from XCD server to local server usin wget
+
+variableSessions: Map presentation ID to session number
+variablesEvoServer: Basic server info
+variablesMapping: Map room number to IP address, and map date to “dayCode”
