@@ -1,7 +1,7 @@
 #!/bin/bash
 ## use lftp to mirror X-CD server to local materials server
 echo "SFTP from XCD to LocalServer";
-lftp -c "mirror --parallel=5 --loop  $XCDFTPAddress $LocalServerCache;"
+lftp -c "mirror --parallel=5 --loop --only-newer $XCDFTPAddress $LocalServerCache;"
 
 #lftp -c "mirror --ignore-time --verbose=2 --log=$LocalServerCache/lftpLog_${dateTime} --use-pget-n=1 --parallel=5  $XCDFTPAddress $LocalServerCache;"
 #lftp -c "mirror --log=${LocalServerCache}/sftpLog --use-pget-n=5 --parallel=5 $XCDFTPAddress $LocalServerCache;"

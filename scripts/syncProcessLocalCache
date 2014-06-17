@@ -36,8 +36,8 @@ for f in `ls ${LocalServerCache}/P*`;
     then   
       mkdir -p ${LocalServer}/${room}/${session};   
     fi
-
-    ln -fs $f ${LocalServer}/${room}/${session}/ 
+    #echo "first link $f"
+#    ln -fs $f ${LocalServer}/${room}/${session}/ 
 #  else 
 #    echo "$session"
   fi
@@ -47,6 +47,36 @@ for f in `ls ${LocalServerCache}/P*`;
   
 #  rsync -arz --delete ${LocalServerCache}/${dateCode}?_${r} ${LocalServer}/${r};
 done
+
+
+for sess in `ls ${LocalServerCache}/bysess/`;
+  do
+  matchRoom=`echo $sess | sed 's/.*_\(.*\)/\1/'`
+  for talk in `ls ${LocalServerCache}/bysess/$sess/P*`
+    do 
+    id=`echo $talk | sed 's/.*_\(.*\)\..*/\1/'`
+    session=${mapIDToSession[$id]}
+    room=`echo $session | sed 's/.*_\(.*\)/\1/'`    
+    day=`echo $session | sed 's/\([01234]\)._.*/\1/'`
+#    echo "$day"
+    dayString=${MapDayCodeToDayString[$day]}
+    destFolder=${LocalServer}/${room}/${dayString}/${session}/
+    if [ "$matchRoom" == "$room"  ] 
+    then 
+      echo "ln -s $sess $day $matchRoom $talk $talkRoom  "
+      
+      if [ ! -d $destFolder ]
+      then
+        mkdir -p $destFolder;
+      fi
+      ln -fs $talk $destFolder 
+    else
+      echo "ERROR!!! ========= $sess $matchRoom $talk $talkRoom"
+    fi
+  done
+done
+
+
 
 for r in "${!MapRoomToIP[@]}"; 
   do 
