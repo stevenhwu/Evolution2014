@@ -2,13 +2,17 @@
 ## use wget to mirror X-CD server to local materials server
 echo "wget from XCD to LocalServer";
 #wget -nH -q -t3 -T30 --ftp-password=Raleigh123! -m $XCDFTPAddress -P $LocalServerCache"
-wget -nH -nv -t3 -T30 --ftp-password=Evo!^529Jn -r -N -l inf $XCDFTPAddress -P $LocalServerCache -a "${LocalServerCache}/wgetLog_${dateTime}"
+wget -nH -nv -t3 -T30 --ftp-password=Evo!^529Jn -r -N -l inf $XCDFTPAddress -P $LocalServerCache
+
+# -a "${LocalServerCache}/wgetLog_${dateTime}"
 #wget -nH -nv -t3 -T30 --ftp-password=Raleigh123! -m $XCDFTPAddress -P $LocalServerCache -a "${LocalServerCache}/wgetLog"
 
 #tail -n 1 ${LocalServerCache}/wgetLog_${dateTime}
-grep "Downloaded:" ${LocalServerCache}/wgetLog_${dateTime}
-grep error ${LocalServerCache}/wgetLog_${dateTime}
-grep Permission ${LocalServerCache}/wgetLog_${dateTime}
+#grep "Downloaded:" ${LocalServerCache}/wgetLog_${dateTime}
+#grep error ${LocalServerCache}/wgetLog_${dateTime}
+#grep Permission ${LocalServerCache}/wgetLog_${dateTime}
+
+
 ## wget will keep updating .listing files from the server
 ## -m --mirror
 ##   Turn on options suitable for mirroring.  This option turns on recursion and time-stamping, sets infinite recursion

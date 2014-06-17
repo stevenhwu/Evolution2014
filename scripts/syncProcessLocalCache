@@ -8,8 +8,8 @@ else
   today=`date -d ${1} +%d`
 fi
 
-echo $today
-echo ${MapDateToCode[$today]}
+#echo $today
+#echo ${MapDateToCode[$today]}
 #echo ${MapDateToCode[22]}
 ## end testing
 
@@ -21,32 +21,28 @@ echo -e "Preprocess files at local Server. Day ${dateCode}.\n";
 
 #### post process into ROOM folder
 
-for f in `ls ${LocalServerCache}/P*`;
-  do
-  id=`echo $f | sed 's/.*_\(.*\)\..*/\1/'`
-  session=${mapIDToSession[$id]}
-  room=`echo $session | sed 's/.*_\(.*\)/\1/'`
-
-
-  if `echo $session | grep -Eq "${dateCode}._.+"`
-  then 
+#for f in `ls ${LocalServerCache}/P*`;
+#  do
+#  id=`echo $f | sed 's/.*_\(.*\)\..*/\1/'`
+#  session=${mapIDToSession[$id]}
+#  room=`echo $session | sed 's/.*_\(.*\)/\1/'`
+#  if `echo $session | grep -Eq "${dateCode}._.+"`
+#  then 
     
  #   echo "$room $f $id  $session $room"
-    if [ ! -d "${LocalServer}/${room}/${session}" ]   
-    then   
-      mkdir -p ${LocalServer}/${room}/${session};   
-    fi
+#    if [ ! -d "${LocalServer}/${room}/${session}" ]   
+#    then   
+#      mkdir -p ${LocalServer}/${room}/${session};   
+#    fi
     #echo "first link $f"
 #    ln -fs $f ${LocalServer}/${room}/${session}/ 
 #  else 
 #    echo "$session"
-  fi
-  
+#  fi
+
 
 #  ln -fs $f ${LocalServer}/${room}/${session}/
-  
-#  rsync -arz --delete ${LocalServerCache}/${dateCode}?_${r} ${LocalServer}/${r};
-done
+#done
 
 
 for sess in `ls ${LocalServerCache}/bysess/`;
@@ -58,12 +54,11 @@ for sess in `ls ${LocalServerCache}/bysess/`;
     session=${mapIDToSession[$id]}
     room=`echo $session | sed 's/.*_\(.*\)/\1/'`    
     day=`echo $session | sed 's/\([01234]\)._.*/\1/'`
-#    echo "$day"
     dayString=${MapDayCodeToDayString[$day]}
     destFolder=${LocalServer}/${room}/${dayString}/${session}/
     if [ "$matchRoom" == "$room"  ] 
     then 
-      echo "ln -s $sess $day $matchRoom $talk $talkRoom  "
+    #  echo "ln -s $sess $day $matchRoom $talk $talkRoom  "
       
       if [ ! -d $destFolder ]
       then
@@ -91,8 +86,8 @@ for r in "${!MapRoomToIP[@]}";
 #  echo `ls  ${LocalServer}/${r}`
 #  echo "remove: $removeOld"
   for old in ${removeOld}; do  
-    rm -r ${LocalServer}/${r}/${old}/; 
-#    echo "Remov this ${LocalServer}/${r}/${old}/"
+#    rm -r ${LocalServer}/${r}/${old}/; 
+    echo "Remov this ${LocalServer}/${r}/${old}/"
   done 
 
 
