@@ -6,6 +6,6 @@ for r in "${!MapRoomToIP[@]}";
   printf "rsync from localMirror to %s\tIP: %s\n" "$r" "${MapRoomToIP[$r]}";
   Room="admin@${MapRoomToIP[$r]}:/Users/admin/Desktop/${r}/";
   LocalMirror="${LocalServer}/${r}/";
-  rsync -az ${LocalMirror} ${Room};
+  rsync -azL --delete ${LocalMirror} ${Room};
 done;
 

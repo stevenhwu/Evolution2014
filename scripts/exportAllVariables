@@ -1,19 +1,20 @@
 #!/bin/bash
 #export dateTime=`date +\%m\%d_\%H_\%M`
 export scriptDir="${HOME}/Evolution2014/scripts"
-export LocalServer="${HOME}/Desktop/Evo14LocalMirror/"
+export LocalServer="${HOME}/Desktop/Evo14LocalMirror"
 export LocalServerCache="${LocalServer}/Cache"
 export LocalServerLog="${LocalServer}/Log"
 
-if [ ! -d $LocalServerCache ]
-  then mkdir -p $LocalServerCache
-fi
+#if [ ! -d $LocalServerCache ]
+#  then mkdir -p $LocalServerCache
+#fi
 
-if [ ! -d $LocalServerLog ]
-  then mkdir -p $LocalServerLog
-fi
+#if [ ! -d $LocalServerLog ]
+#  then mkdir -p $LocalServerLog
+#fi
 
 #export XCDFTPAddress="ftp://evo2014@184.175.78.150/"
 export XCDFTPAddress="ftp://Evo2014@xcdsystem.com/"
 . ${scriptDir}/variablesMapping
-. ${scriptDir}/variableEvoServer
+. ${scriptDir}/variablesEvoServer
+. ${scriptDir}/variableSessions

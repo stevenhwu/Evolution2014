@@ -1,8 +1,11 @@
 #!/bin/bash
-today=`date +%d`
 
-## for testing only
-today=`date -d 20140622 +%d`
+if [ ! -n "${1}" ]
+then
+  today=`date +%d`
+else
+  today=`date -d ${1} +%d`
+fi
 #echo $today
 #echo ${MapDateToCode[21]}
 #echo ${MapDateToCode[22]}
@@ -12,26 +15,57 @@ dateCode="${MapDateToCode[${today}]}"
 oldDateCode=`expr $dateCode - 1`
 #oldDateCode=`echo "$dateCode-1" | bc`
 
-echo -e "Preprocess files at local Server\n";
+echo -e "Preprocess files at local Server. Day ${dateCode}.\n";
 
 #### post process into ROOM folder
-for r in "${!MapRoomToIP[@]}";
+
+for f in `ls ${LocalServerCache}/P*`;
   do
-    if [ ! -d "${LocalServer}/${r}" ]
-    then
-      mkdir -p ${LocalServer}/$r;
+  id=`echo $f | sed 's/.*_\(.*\)\..*/\1/'`
+  session=${mapIDToSession[$id]}
+  room=`echo $session | sed 's/.*_\(.*\)/\1/'`
+
+
+  if `echo $session | grep -Eq "${dateCode}._.+"`
+  then 
+    
+ #   echo "$room $f $id  $session $room"
+    if [ ! -d "${LocalServer}/${room}/${session}" ]   
+    then   
+      mkdir -p ${LocalServer}/${room}/${session};   
     fi
 
-  #echo -e "=====Run ${dateCode}*_${r}=====${oldDateCode}=====\n\n"
-  removeOld=`ls ${LocalServer}/${r}/ | grep -E "${oldDateCode}._"`
- 
-  for old in ${removeOld}; do 
-    rm -r ${LocalServer}/${r}/${old}/;
-  done
+    ln -fs $f ${LocalServer}/${room}/${session}/ 
+#  else 
+#    echo "$session"
+  fi
+  
 
-#  rsync -arzivvv --progress  --include "*${dateCode}*_${r}*" --exclude "*" --delete-excluded ${LocalServerCache}/ ${LocalServer}/${r};
-#  rsync -arzivvv --progress  --include "${dateCode}*_${r}" --exclude "${oldDateCode}*" --delete-excluded ${LocalServerCache}/ ${LocalServer}/${r}/;
-  rsync -arz --delete ${LocalServerCache}/${dateCode}?_${r} ${LocalServer}/${r};
+#  ln -fs $f ${LocalServer}/${room}/${session}/
+  
+#  rsync -arz --delete ${LocalServerCache}/${dateCode}?_${r} ${LocalServer}/${r};
 done
 
+for r in "${!MapRoomToIP[@]}"; 
+  do 
+#    if [ ! -d "${LocalServer}/${r}" ] 
+#    then 
+#      mkdir -p ${LocalServer}/$r; 
+#    fi 
+ 
+  #echo -e "=====Run ${dateCode}*_${r}=====${oldDateCode}=====\n\n" 
+  removeOld=`ls ${LocalServer}/${r}/ | grep -E "${oldDateCode}._"` 
+#  echo "${LocalServer}/${r}"
+#  echo `ls  ${LocalServer}/${r}`
+#  echo "remove: $removeOld"
+  for old in ${removeOld}; do  
+    rm -r ${LocalServer}/${r}/${old}/; 
+#    echo "Remov this ${LocalServer}/${r}/${old}/"
+  done 
 
+
+#  rsync -arz --delete ${LocalServerCache}/${r} ${LocalServer}/${r};  
+
+#  rsync -arzivvv --progress  --include "*${dateCode}*_${r}*" --exclude "*" --delete-excluded ${LocalServerCache}/ ${LocalServer}/${r}; 
+#  rsync -arzivvv --progress  --include "${dateCode}*_${r}" --exclude "${oldDateCode}*" --delete-excluded ${LocalServerCache}/ ${LocalServer}/${r}/; 
+done 
