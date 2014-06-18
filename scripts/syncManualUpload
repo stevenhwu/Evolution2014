@@ -24,7 +24,8 @@ done
 
 #### sync manually uploaded files between primary and secondary server
 if [  "$evoServerName" == "evo-primary" ]
-    then "sync manually uploaded files FROM primary TO seconadry"
+    then 
+    echo "sync manually uploaded files FROM primary TO seconadry"
     rsync -e 'ssh' -az ${LocalServer}/ManualUpload/ evo14@${evoSecondaryIP}:${LocalServer}/ManualUpload/
 # sync to secondary
 elif [  "$evoServerName" == "evo-secondary" ]
