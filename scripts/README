@@ -26,6 +26,7 @@ runPushToRoom: Sync presentations to presentation room(s).
 	./runPushToRoom 301A	# Sync presentations to room 301A ONLY and for "today" ONLY
 	./runPushToRoom 301A 2	# Sync presentations to room 301A ONLY and for 22/Sunday ONLY
 	./runPushToRoom 301A 22	# Sync presentations to room 301A ONLY and for 22/Sunday ONLY
+	./runPushToRoom ALL 22 # Sync presentations to ALL rooms and for 22/Sunday ONLY
 
 	Invalid usage:
 	./runPushToRoom 301A 301B	# Error, two room numbers

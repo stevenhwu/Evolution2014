@@ -10,12 +10,10 @@ Logfile=/Desktop/Evo14LocalMirror/Log/
 #5 0 * * * /home/sw167/Evolution2014/scripts/runAll > ${Logfile}`date +\%m\%d_\%H_\%M` 2>&1
 #14 * * * * /home/sw167/Evolution2014/scripts/runSyncXCD > ${HOME}/Desktop/testsss2 2>&1
 #17 * * * * ${HOME}/Evolution2014/scripts/runSyncXCD > ${HOME}/Desktop/testsss 2>&1
-0,20,40 * * * * ${HOME}/Evolution2014/scripts/runSyncXCD > ${HOME}/${Logfile}"syncXCD_"`date +\%m\%d_\%H_\%M` 2>&1 
+0,20,40 * * * * ${HOME}/Evolution2014/scripts/runSyncXCD | grep -v "Mirroring directory" > ${HOME}/${Logfile}"syncXCD_"`date +\%m\%d_\%H_\%M` 2>&1 
 30 07 * * *   ${HOME}/Evolution2014/scripts/runPushToRoom > ${HOME}/${Logfile}"PushPre_"`date +\%m\%d_\%H_\%M` 2>&1
-#45 09 * * *   ${HOME}/Evolution2014/scripts/runPushToRoom > ${HOME}/${Logfile}"PushMorning_"`date +\%m\%d_\%H_\%M` 2>&1
 45 11 * * *   ${HOME}/Evolution2014/scripts/runPushToRoom > ${HOME}/${Logfile}"PushLunch1_"`date +\%m\%d_\%H_\%M` 2>&1
 00 13 * * *   ${HOME}/Evolution2014/scripts/runPushToRoom > ${HOME}/${Logfile}"PushLunch2_"`date +\%m\%d_\%H_\%M` 2>&1
-#45 14 * * *   ${HOME}/Evolution2014/scripts/runPushToRoom > ${HOME}/${Logfile}"PushAfternoon_"`date +\%m\%d_\%H_\%M` 2>&1
 
 5 18 21 * * ${HOME}/Evolution2014/scripts/runPushToRoom ALL 2 > ${HOME}/${Logfile}"NextDay_"`date +\%m\%d_\%H_\%M` 2>&1
 5 18 22 * * ${HOME}/Evolution2014/scripts/runPushToRoom ALL 3 > ${HOME}/${Logfile}"NextDay_"`date +\%m\%d_\%H_\%M` 2>&1

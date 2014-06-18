@@ -5,6 +5,8 @@ ServerIP="152.3.59.171 152.3.59.187"
 serverRecord="/home/evo14/Desktop/Evo14LocalMirror/RoomInfo/"
 Room=$1
 
+
+## TODO make sure ROOM is valid!!
 IP=`ipconfig getifaddr en0`
 #en1 for wireless
 
@@ -13,6 +15,7 @@ IP=`ipconfig getifaddr en0`
 if [ ! -n "${1}" ]
   then 
     echo "Please provide room code!! Exit script"
+#TODO all list of all possible room
     exit 6
 fi
 #ifconfig en0| grep 'inet ' | cut -d: -f2 | awk '{ print $2}'
@@ -20,7 +23,7 @@ fi
 mkdir -p /Users/admin/Desktop/${1}
 tempFile="/Users/admin/${1}_info"
 
-echo "IP: $IP"
+echo "Room: $Room  IP: $IP"
 echo "[\"${Room}\"]=\"${IP}\"" >$tempFile
 
 
