@@ -1,3 +1,4 @@
+
 There are several scripts to ensure all presentations are synced properly. The most useful one are the follow.
 
 runAll: Sync presentations from XCD, preprocess them locally, then rsync to each room.
@@ -7,6 +8,14 @@ runPushToRoom:Sync presentations to presentation room(s).
  - Take 1 parameter which is the room number (e.g. 301A). Then this scripts will only sync the presentations for that room.
 
 runSyncXCD: Sync presentations from XCD and preprocess them locally. This one runs frequently in crontab. Shouldn't need to run this manually.
+
+===================================
+Variables: Update required at RCC
+
+variablesEvoServer: Store the IPs for primary and secondary server
+variablesMapping: Store the IPs and room number for all the presentation laptops.
+
+
 
 ===================================
 Folder structure
