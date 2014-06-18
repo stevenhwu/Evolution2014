@@ -1,0 +1,7 @@
+#!/bin/bash
+#set -x
+#printenv
+export scriptDir="${HOME}/Evolution2014/scripts/"
+. ${scriptDir}/exportAllVariables
+. ${scriptDir}/syncManualUpload
+

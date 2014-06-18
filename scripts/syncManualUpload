@@ -5,16 +5,25 @@ LocalServerManualUpload=${LocalServer}/ManualUpload/
 #### sync manually uploaded files between primary and secondary server
 if [  "$evoServerName" == "evo-primary" ]
     then 
-    echo "sync manually uploaded files FROM primary TO seconadry"
-    rsync -e 'ssh' -avz evo14@${evoSecondaryIP}:${LocalServerManualUpload} ${LocalServerManualUpload}
-    rsync -e 'ssh' -avz ${LocalServerManualUpload} evo14@${evoSecondaryIP}:${LocalServerManualUpload}
+    echo "sync manually uploaded files between primary and secondary servers"
+    otherIP=${evoSecondaryIP}
+#    rsync -e 'ssh' -az evo14@${evoSecondaryIP}:${LocalServerManualUpload} ${LocalServerManualUpload}
+#    rsync -e 'ssh' -az ${LocalServerManualUpload} evo14@${evoSecondaryIP}:${LocalServerManualUpload}
 
 # sync to secondary
 elif [  "$evoServerName" == "evo-secondary" ]
     then
-    echo "sync manually uploaded files FROM secondary TO Primary"
-    rsync -e 'ssh' -az ${LocalServerManualUpload} evo14@${evoPrimaryIP}:${LocalServerManualUpload}
-    rsync -e 'ssh' -az evo14${evoPrimaryIP}:${LocalServerManualUpload} ${LocalServerManualUpload}
+#    echo "sync manually uploaded files FROM secondary TO Primary, and back"
+    otherIP=${evoPrimaryIP}
+#    rsync -e 'ssh' -az ${LocalServerManualUpload} evo14@${evoPrimaryIP}:${LocalServerManualUpload}
+#    rsync -e 'ssh' -az evo14@${evoPrimaryIP}:${LocalServerManualUpload} ${LocalServerManualUpload}
+fi
+if [ ! -n $otherIP ]
+then
+    rsync -e 'ssh' -az ${LocalServerManualUpload} evo14@${otherIP}:${LocalServerManualUpload}
+    rsync -e 'ssh' -az evo14@${otherIP}:${LocalServerManualUpload} ${LocalServerManualUpload}
+else
+    echo "Warning!! Running on other server other then evo-* server"
 fi
 
 
@@ -36,6 +45,12 @@ do
   fi
   ln -fs $talk $destFolder 
 
+done
+
+BrokenLinks=`find ${LocalServer} -type l -xtype l`
+for blink in ${BrokenLinks}
+do
+    echo "ERROR!! broken links: ${blink}"
 done
 
 # for sess in `ls ${LocalServerCache}/bysess/`;

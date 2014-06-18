@@ -1,6 +1,6 @@
 #!/bin/bash
 ## use wget to mirror X-CD server to local materials server
-echo "wget from XCD to LocalServer";
+echo "Sync from XCD to LocalServer with wget";
 #wget -nH -q -t3 -T30 --ftp-password=Raleigh123! -m $XCDFTPAddress -P $LocalServerCache"
 wget -nH -nv -t3 -T30 --ftp-password=Evo!^529Jn -r -N -l inf $XCDFTPAddress -P $LocalServerCache
 

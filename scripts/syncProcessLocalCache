@@ -1,23 +1,6 @@
 #!/bin/bash
 
-if [ ! -n "${1}" ]
-then
-  today=`date +%d`
-  today=`date -d 20140622 +%d`
-else
-  today=`date -d ${1} +%d`
-fi
-
-#echo $today
-#echo ${MapDateToCode[$today]}
-#echo ${MapDateToCode[22]}
-## end testing
-
-dateCode="${MapDateToCode[${today}]}"
-oldDateCode=`expr $dateCode - 1`
-#oldDateCode=`echo "$dateCode-1" | bc`
-
-echo -e "Preprocess files at local Server. Day ${dateCode}.\n";
+echo -e "Preprocess files at local Server.";
 
 #### post process into ROOM folder
 
@@ -48,7 +31,7 @@ echo -e "Preprocess files at local Server. Day ${dateCode}.\n";
 for sess in `ls ${LocalServerCache}/bysess/`;
   do
   matchRoom=`echo $sess | sed 's/.*_\(.*\)/\1/'`
-  if [ $matchRoom != "BallAB" ]
+  if [[ $matchRoom != "BallAB" && $sess != "ievobioC_402" ]]
   then
     for talk in `ls ${LocalServerCache}/bysess/$sess/P*`
     do 
@@ -58,7 +41,7 @@ for sess in `ls ${LocalServerCache}/bysess/`;
       dayCode=`echo $session | sed 's/\([01234]\)._.*/\1/'`
       dayString=${MapDayCodeToDayString[$dayCode]}
       destFolder=${LocalServer}/${room}/${dayString}/${session}/
-      if [ "$matchRoom" == "$room"  ] 
+      if [[ "$matchRoom" == "$room"  && "$sess" == "$session" ]]
       then 
     #  echo "ln -s $sess $dayCode $matchRoom $talk $talkRoom  "
       
@@ -68,13 +51,13 @@ for sess in `ls ${LocalServerCache}/bysess/`;
         fi
         ln -fs $talk $destFolder 
       else
-        echo "ERROR!!! ===XCD $matchRoom ===Local: $talk $id $session $room"
+        echo "ERROR!!! XCD session != local session. ==XCD: $sess $matchRoom ===Local: $talk $id $session $room"
       fi
     done
   fi
 done
 
-
+. ${scriptDir}/syncManualUpload
 
 #for r in "${!MapRoomToIP[@]}"; 
 #  do 

@@ -1,6 +1,6 @@
 #!/bin/bash
 ## use lftp to mirror X-CD server to local materials server
-echo "SFTP from XCD to LocalServer";
+echo "Sync from XCD to LocalServer with lftp";
 #lftp -c "mirror --verbose=3 --parallel=5 --loop --only-newer $XCDFTPAddress $LocalServerCache;"
 
 ##for clean up purpose only, e.g. when XCD move files to bysess folder
