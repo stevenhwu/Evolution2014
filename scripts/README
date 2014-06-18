@@ -1,37 +1,57 @@
-
-There are several scripts to ensure all presentations are synced properly. The most useful one are the follow.
-
-runAll: Sync presentations from XCD, preprocess them locally, then rsync to each room.
-
-runPushToRoom:Sync presentations to presentation room(s).
- - Without any parameters, this scripts will sync all presentations to each room.
- - Take 1 parameter which is the room number (e.g. 301A). Then this scripts will only sync the presentations for that room.
-
-runSyncXCD: Sync presentations from XCD and preprocess them locally. This one runs frequently in crontab. Shouldn't need to run this manually.
-
-===================================
-Variables: Update required at RCC
+===== TODO list at RCC =====
 
 variablesEvoServer: Store the IPs for primary and secondary server
 variablesMapping: Store the IPs and room number for all the presentation laptops.
+setupRoomScript: update primary/secondary IP addresses
+
+
+===== Usage =====
+There are several scripts to ensure all presentations are synced properly. The most useful one are the follow.
+
+runAll: Sync presentations from XCD, preprocess them locally, then rsync to each room.
+	usage:
+	./runAll
+ 
+
+runPushToRoom: Sync presentations to presentation room(s).
+	 - Without any parameters, this scripts will sync all presentations to each room for that given day only.
+	 - First parameter which is the room number (e.g. 301A). Then this scripts will only sync the presentations for that room.
+	   Also take "ALL" or "all", which will sync to all rooms.
+	 - Second parameter, which is the date (20,21,22,23,24) or dateCode (0,1,2,3,4). This allow us to sync presentations for the following day.
+
+	usage:
+	./runPushToRoom		# Sync presentations to ALL rooms for "today" ONLY
+	./runPushToRoom ALL	# Same as above
+	./runPushToRoom all	# Same as above
+	./runPushToRoom 301A	# Sync presentations to room 301A ONLY and for "today" ONLY
+	./runPushToRoom 301A 2	# Sync presentations to room 301A ONLY and for 22/Sunday ONLY
+	./runPushToRoom 301A 22	# Sync presentations to room 301A ONLY and for 22/Sunday ONLY
+
+	Invalid usage:
+	./runPushToRoom 301A 301B	# Error, two room numbers
+	./runPushToRoom 22		# Error, got date but no room number
+
+
+runSyncXCD: Sync presentations from XCD and preprocess them locally. This one runs frequently in crontab. Shouldn't need to run this manually.
+	usage:
+	./runSyncXCD
 
 
 
-===================================
-Folder structure
-Local server:
-~/Evolution2014
-This folders contain all the scripts and other setup file. This is also on github
+===== Folder structure =====
+Local primary/secondary servers:
 
-~/Desktop/Evo14LocalMirror/		Local Server
+~/Evolution2014		This folders contain all the scripts and other setup file. This is also on github
+
+~/Desktop/Evo14LocalMirror/		Local Mirror
 ~/Desktop/Evo14LocalMirror/Log		All log files from crontab
-~/Desktop/Evo14LocalMirror/Cache		Presentation downloaded from XCD
+~/Desktop/Evo14LocalMirror/Cache	Presentation synced from XCD
 ~/Desktop/Evo14LocalMirror/RoomInfo	Store room-IP info from each presentation laptop
 
-201 – 402,BalC		Presentation room. Each room should only have the symbolic link which points to the presentations for that day only.
+201 – 402,BalC		Presentation room. Each room should only have the symbolic link which points to the presentations.
 
 
-===================================
+===== Other scripts =====
 Other less useful one. We should not need to execute theses manually.
 
 

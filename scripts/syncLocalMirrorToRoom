@@ -1,21 +1,43 @@
 #!/bin/bash
 ## rsync from materials server to each room
-#echo ${MapRoomToIP[@]}
+#Two parameters, Room and Day
 
-
-if [ ! -n "${1}" ]
-  then
-    RoomList="${!MapRoomToIP[@]}"
-  else
-    RoomList=$1
+if [[ ! -n "${1}" || ${1} == "ALL" ||  ${1} == "all" ]]
+then
+  RoomList="${!MapRoomToIP[@]}"
+  echo -e "Sync from Local to ALL Rooms: ${RoomList}."
+else
+  RoomList=$1
+  echo -e "Sync from Local to Room ${RoomList} ONLY."
 fi
+
+if [ ! -n "${2}" ]
+then
+  today=`date +%d`
+  today=`date -d 20140622 +%d`
+  dateCode="${MapDateToCode[${today}]}"
+else
+  dateCode=${2}
+fi
+
+#echo $today ${MapDateToCode[$today]} ${MapDayCodeToDayString[$dayCode]}
+#oldDateCode=`expr $dateCode - 1`
+#oldDateCode=`echo "$dateCode-1" | bc`
+
+dayString=${MapDayCodeToDayString[$dateCode]}
+#destFolder=${LocalServer}/${room}/${dayString}/${session}/
+
+
+echo -e "Sync for Day ${dateCode} ${dayString}.\n";
+
 
 for r in $RoomList;
 do
   printf "rsync from localMirror to %s\tIP: %s\n" "$r" "${MapRoomToIP[$r]}";
-  Room="admin@${MapRoomToIP[$r]}:/Users/admin/Desktop/${r}/";
-  LocalMirror="${LocalServer}/${r}/";
-  rsync -azL --delete ${LocalMirror} ${Room};
+  Room="admin@${MapRoomToIP[$r]}:/Users/admin/Desktop/${r}/${dayString}/";
+  LocalMirror="${LocalServer}/${r}/${dayString}/";
+  rsync -e 'ssh -o StrictHostKeyChecking=no' -azL --delete ${LocalMirror} ${Room};
+#   --update --delete
 done;
 
 

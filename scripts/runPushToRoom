@@ -1,5 +1,5 @@
 #!/bin/bash
 export scriptDir="${HOME}/Evolution2014/scripts/"
 . ${scriptDir}/exportAllVariables
-. ${scriptDir}/syncLocalMirrorToRoom $1
+. ${scriptDir}/syncLocalMirrorToRoom $1 $2
 

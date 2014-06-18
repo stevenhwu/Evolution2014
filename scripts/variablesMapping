@@ -4,10 +4,10 @@ declare -Ax MapRoomToIP
 MapRoomToIP=(
 #["BalC"]=""
 #["201"]=""
-#["205"]=""
-["206"]="152.3.59.2"
-#["301A"]="152.3.59.2"
-["301B"]="192.168.1.135"
+####["205"]=""
+#["206"]="152.3.59.2"
+["301A"]="152.3.58.137"
+#["301B"]="192.168.1.135"
 #["302A"]="10.0.5.64"
 #["302B"]=""
 #["302C"]=""
@@ -19,9 +19,12 @@ MapRoomToIP=(
 #["306B"]=""
 #["306C"]=""
 #["307"]=""
-
+["402"]=""
 )
 export MapRoomToIP
+
+allRoomList=${!MapRoomToIP[@]}
+export allRoomList
 
 ## Map date to folder code
 declare -x MapDateToCode
@@ -41,6 +44,15 @@ MapDayCodeToDayString=(
 [2]="SUN"
 [3]="MON"
 [4]="TUE"
+[20]="FRI"
+[21]="SAT"
+[22]="SUN"
+[23]="MON"
+[24]="TUE"
+
+
+
+
 )
 export MapDayCodeToDayString
 
