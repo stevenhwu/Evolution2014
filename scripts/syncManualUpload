@@ -29,7 +29,8 @@ fi
 
 #### Preprocess manually uploaded files at local Server
 
-for talk in `ls ${LocalServerManualUpload}P*`;
+#for talk in `ls ${LocalServerManualUpload}`;
+for talk in `find /home/sw167/Desktop/Evo14LocalMirror/ManualUpload/ -name P*_*`
 do
   id=`echo $talk | sed 's/.*_\(.*\)\..*/\1/'`
   session=${mapIDToSession[$id]}
@@ -43,7 +44,8 @@ do
   then
     mkdir -p $destFolder;
   fi
-  ln -fs $talk $destFolder 
+  echo "ln -fs $talk $destFolder"
+#  ln -fs $talk $destFolder 
 
 done
 
@@ -51,6 +53,7 @@ BrokenLinks=`find ${LocalServer} -type l -xtype l`
 for blink in ${BrokenLinks}
 do
     echo "ERROR!! broken links: ${blink}"
+    rm ${blink}
 done
 
 # for sess in `ls ${LocalServerCache}/bysess/`;

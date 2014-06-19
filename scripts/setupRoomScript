@@ -1,6 +1,6 @@
 #!/bin/bash
 ## don't think this works for mac hostname -I
-ServerIP="152.3.59.171 152.3.59.187"
+ServerIP="10.12.111.192 10.12.111.193"
 serverRecord="/home/evo14/Desktop/Evo14LocalMirror/RoomInfo/"
 Room=$1
 
@@ -15,7 +15,7 @@ IP=`ipconfig getifaddr en0`
 rr="=${1}="
 if [[ ${MatchingCode} != *${rr}*  ]];
     then
-    echo -e "ERROR!! Invalid  room code:${rr}. \nValid room code: ${ValidRoomCode}\nExit script!!!"
+    echo -e "ERROR!! Invalid  room code:${i}. \nValid room code: ${ValidRoomCode}\nExit script!!!"
     exit 5
 fi
 
