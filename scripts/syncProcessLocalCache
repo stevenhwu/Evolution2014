@@ -31,7 +31,7 @@ echo -e "Preprocess files at local Server.";
 for sess in `ls ${LocalServerCache}/bysess/`;
   do
   matchRoom=`echo $sess | sed 's/.*_\(.*\)/\1/'`
-  if [[ $matchRoom != "BallAB" && $sess != "ievobioC_402" ]]
+  if [[  $matchRoom != "BallAB" && $matchRoom != "BalAB"  &&  $sess != "ievobioC_402"  ]]
   then
     for talk in `ls ${LocalServerCache}/bysess/$sess/P*`
     do 
