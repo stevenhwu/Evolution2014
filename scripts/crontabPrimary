@@ -15,6 +15,7 @@ Logfile=/Desktop/Evo14LocalMirror/Log/
 45 11 * * *   ${HOME}/Evolution2014/scripts/runPushToRoom > ${HOME}/${Logfile}"PushLunch1_"`date +\%m\%d_\%H_\%M` 2>&1
 00 13 * * *   ${HOME}/Evolution2014/scripts/runPushToRoom > ${HOME}/${Logfile}"PushLunch2_"`date +\%m\%d_\%H_\%M` 2>&1
 
+5 17 20 * * ${HOME}/Evolution2014/scripts/runPushToRoom ALL > ${HOME}/${Logfile}"ALL_"`date +\%m\%d_\%H_\%M` 2>&1
 5 18 21 * * ${HOME}/Evolution2014/scripts/runPushToRoom ALL 2 > ${HOME}/${Logfile}"NextDay_"`date +\%m\%d_\%H_\%M` 2>&1
 5 18 22 * * ${HOME}/Evolution2014/scripts/runPushToRoom ALL 3 > ${HOME}/${Logfile}"NextDay_"`date +\%m\%d_\%H_\%M` 2>&1
 5 18 23 * * ${HOME}/Evolution2014/scripts/runPushToRoom ALL 4 > ${HOME}/${Logfile}"NextDay_"`date +\%m\%d_\%H_\%M` 2>&1

@@ -1,0 +1,21 @@
+#!/bin/bash
+##### Install crontab on secondary materials server #####
+# crontab serverCrontab; 
+#######################################################
+PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin"
+Logfile=/Desktop/Evo14LocalMirror/Log/
+#LogSubFile=/Desktop/Evo14LocalMirror/Log/f1
+
+#10 mins after Primary Server
+10,30,40 * * * * ${HOME}/Evolution2014/scripts/runSyncXCD | grep -v "Mirroring directory" > ${HOME}/${Logfile}"syncXCD_"`date +\%m\%d_\%H_\%M` 2>&1 
+40 07 * * *   ${HOME}/Evolution2014/scripts/runPushToRoom > ${HOME}/${Logfile}"PushPre_"`date +\%m\%d_\%H_\%M` 2>&1
+55 11 * * *   ${HOME}/Evolution2014/scripts/runPushToRoom > ${HOME}/${Logfile}"PushLunch1_"`date +\%m\%d_\%H_\%M` 2>&1
+10 13 * * *   ${HOME}/Evolution2014/scripts/runPushToRoom > ${HOME}/${Logfile}"PushLunch2_"`date +\%m\%d_\%H_\%M` 2>&1
+
+#on hold for now, until we test this at RCC
+#55 17 20 * * ${HOME}/Evolution2014/scripts/runPushToRoom ALL > ${HOME}/${Logfile}"ALL_"`date +\%m\%d_\%H_\%M` 2>&1
+#55 18 21 * * ${HOME}/Evolution2014/scripts/runPushToRoom ALL 2 > ${HOME}/${Logfile}"NextDay_"`date +\%m\%d_\%H_\%M` 2>&1
+#55 18 22 * * ${HOME}/Evolution2014/scripts/runPushToRoom ALL 3 > ${HOME}/${Logfile}"NextDay_"`date +\%m\%d_\%H_\%M` 2>&1
+#55 18 23 * * ${HOME}/Evolution2014/scripts/runPushToRoom ALL 4 > ${HOME}/${Logfile}"NextDay_"`date +\%m\%d_\%H_\%M` 2>&1
+#55 19 *  * * ${HOME}/Evolution2014/scripts/runAll > ${HOME}/${Logfile}"ALL_"`date +\%m\%d_\%H_\%M` 2>&1
+

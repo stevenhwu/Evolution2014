@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo -e "Sync RoomInfo between two servers";
+LocalServerManualUplod=${LocalServer}/RoomInfo/ 
+#### sync manually uploaded files between primary and secondary server
+if [  "$evoServerName" == "evo-primary" ]
+    then 
+    otherIP=${evoSecondaryIP}
+
+elif [  "$evoServerName" == "evo-secondary" ]
+    then
+    otherIP=${evoPrimaryIP}
+fi
+
+rsync -e 'ssh' -az ${LocalServerRoomInfo} evo14@${otherIP}:${LocalServerRoomInfo}
+rsync -e 'ssh' -az evo14@${otherIP}:${LocalServerRoomInfo} ${LocalServerRoomInfo}
+

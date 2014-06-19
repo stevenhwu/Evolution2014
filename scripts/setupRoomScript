@@ -7,19 +7,17 @@ Room=$1
 ValidRoomCode="201  206  301A  301B  302A  302B  302C  303  304  305A  305B  306A  306B  306C  402  BalC"
 MatchingCode="=201=206=301A=301B=302A=302B=302C=303=304=305A=305B=306A=306B=306C=402=BalC="
 
-## TODO make sure ROOM is valid!!
-rr="=${1}="
-if [[ ${MatchingCode} == *${rr}*  ]];
-    then
-    echo "Valid:${rr}"
-else
-    echo "ERROR room code:${rr}"
-fi
-
-exit 3
 IP=`ipconfig getifaddr en0`
 #en1 for wireless
 
+
+## TODO make sure ROOM is valid!!
+rr="=${1}="
+if [[ ${MatchingCode} != *${rr}*  ]];
+    then
+    echo -e "ERROR!! Invalid  room code:${rr}. \nValid room code: ${ValidRoomCode}\nExit script!!!"
+    exit 5
+fi
 
 #["301A"]="152.3.59.2"
 if [ ! -n "${1}" ]
