@@ -1,6 +1,6 @@
 #!/bin/bash
 ## don't think this works for mac hostname -I
-ServerIP="10.12.111.192 10.12.111.193"
+ServerIP="10.12.99.100 10.12.99.101"
 serverRecord="/home/evo14/Desktop/Evo14LocalMirror/RoomInfo/"
 Room=$1
 
@@ -83,7 +83,7 @@ for ip in $ServerIP; do
 #  echo "evo14@${ip}:${serverRecord}"
   #scp -o "StrictHostKeyChecking=no" ${tempFile} evo14@${ip}:${serverRecord}
   rsync -e 'ssh -o StrictHostKeyChecking=no' -az  ${tempFile} evo14@${ip}:${serverRecord}
-  break
+#  break
 done
 ## check crontab -l, modified is accordingly
 
