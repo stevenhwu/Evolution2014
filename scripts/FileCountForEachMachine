@@ -1,0 +1,64 @@
+#!/bin/bash
+# check id count's per session
+
+KEY="${!mapIDToSession[@]}"
+RoomList="${!MapRoomToIP[@]}"
+unset countIDPerSession
+declare -A countIDPerSession
+#echo $RoomList
+#echo $KEY
+for k in $KEY
+do
+    room=${mapIDToSession[$k]}
+    #echo $k $room ${countIDPerSession[$room]}
+    COUNTER=$((COUNTER + 1))
+    countIDPerSession[$room]=$(( countIDPerSession[$room]  +1))
+    #echo -e "${countIDPerSession[$room]}\n"
+done
+
+
+for session in "${!countIDPerSession[@]}"
+do 
+#    echo $session ${countIDPerSession[$session]}
+    room=`echo $session | sed 's/.*_\(.*\)/\1/'`            
+    dayCode=`echo $session | sed 's/\([01234]\)._.*/\1/'`
+    dayString=${MapDayCodeToDayString[$dayCode]}
+    destFolder=${LocalServer}/${room}/${dayString}/${session}/
+    
+    fileCount=""
+    for file in `ls $destFolder`
+    do 
+        id=`echo $file | sed 's/.*_\(.*\)\..*/\1/'`
+#	echo $file $id $session
+        fileCount="${id}\n${fileCount}"
+#        uniqCount=`echo -e "$fileCount" | uniq -c | wc`
+#	echo $uniqCount $fileCount
+    done
+    uniqCount="`echo -e "$fileCount" | sed '/^$/d' | uniq -c |wc -l`"
+#    echo $uniqCount $fileCount
+    
+    expectedCount="${countIDPerSession[$session]}"
+#    echo -e "\nCount:$uniqCount $expectedCount"
+    if [[ "$uniqCount" == "$expectedCount" ]]
+    then 
+      echo "Good:$uniqCount $expectedCount"
+    else 
+	echo "ERROR!!!!$uniqCount != $expectedCount"
+    fi
+#    echo `echo $uniqCount | wc`
+    #echo $destFolder `ls $destFolder`
+#    echo "========="
+   
+done
+
+
+#id=`echo $talk | sed 's/.*_\(.*\)\..*/\1/'`
+#session=${mapIDToSession[$id]}
+#room=`echo $session | sed 's/.*_\(.*\)/\1/'`    
+#dayCode=`echo $session | sed 's/\([01234]\)._.*/\1/'`
+#dayString=${MapDayCodeToDayString[$dayCode]}
+
+dayString=${MapDayCodeToDayString[$dateCode]}
+destFolder=${LocalServer}/${room}/${dayString}/${session}/
+
+
