@@ -23,6 +23,8 @@ MapRoomToIP=(
 )
 export MapRoomToIP
 
+
+
 allRoomList=${!MapRoomToIP[@]}
 export allRoomList
 

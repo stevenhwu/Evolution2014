@@ -26,29 +26,30 @@ do
     destFolder=${LocalServer}/${room}/${dayString}/${session}/
     
     fileCount=""
-    for file in `ls $destFolder`
-    do 
-        id=`echo $file | sed 's/.*_\(.*\)\..*/\1/'`
+    if [ ! -d $destFolder ]
+      for file in `ls $destFolder`
+      do 
+          id=`echo $file | sed 's/.*_\(.*\)\..*/\1/'`
 #	echo $file $id $session
-        fileCount="${id}\n${fileCount}"
+          fileCount="${id}\n${fileCount}"
 #        uniqCount=`echo -e "$fileCount" | uniq -c | wc`
 #	echo $uniqCount $fileCount
-    done
-    uniqCount="`echo -e "$fileCount" | sed '/^$/d' | uniq -c |wc -l`"
+      done
+      uniqCount="`echo -e "$fileCount" | sed '/^$/d' | uniq -c |wc -l`"
 #    echo $uniqCount $fileCount
     
-    expectedCount="${countIDPerSession[$session]}"
+      expectedCount="${countIDPerSession[$session]}"
 #    echo -e "\nCount:$uniqCount $expectedCount"
-    if [[ "$uniqCount" == "$expectedCount" ]]
-    then 
-      echo "Good:$uniqCount $expectedCount"
-    else 
-	echo "ERROR!!!!$uniqCount != $expectedCount"
-    fi
+      if [[ "$uniqCount" != "$expectedCount" ]]
+      then 
+#      echo "Good:$uniqCount $expectedCount"
+#    else 
+  	echo "ERROR!!!!$room $session $uniqCount != $expectedCount (expected)"
+      fi
 #    echo `echo $uniqCount | wc`
     #echo $destFolder `ls $destFolder`
 #    echo "========="
-   
+   fi
 done
 
 
