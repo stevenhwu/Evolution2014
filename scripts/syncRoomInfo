@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo -e "Sync RoomInfo between two servers";
-LocalServerManualUplod=${LocalServer}/RoomInfo/ 
+LocalServerRoomInfo=${LocalServer}/RoomInfo/ 
 #### sync manually uploaded files between primary and secondary server
 if [  "$evoServerName" == "evo-primary" ]
     then 
