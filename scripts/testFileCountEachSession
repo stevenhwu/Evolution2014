@@ -1,0 +1,65 @@
+#!/bin/bash
+# check id count's per session
+
+KEY="${!mapIDToSession[@]}"
+RoomList="${!MapRoomToIP[@]}"
+unset countIDPerSession
+declare -A countIDPerSession
+#echo $RoomList
+#echo $KEY
+
+for k in $KEY
+do
+    room=${mapIDToSession[$k]}
+    #echo $k $room ${countIDPerSession[$room]}
+    COUNTER=$((COUNTER + 1))
+    countIDPerSession[$room]=$(( countIDPerSession[$room]  +1))
+    #echo -e "${countIDPerSession[$room]}\n"
+done
+
+echo "Check XCD and links"
+for session in "`echo ${!countIDPerSession[@]}|sort`"
+do 
+#    echo $session ${countIDPerSession[$session]}
+    room=`echo $session | sed 's/.*_\(.*\)/\1/'`            
+    dayCode=`echo $session | sed 's/\([01234]\)._.*/\1/'`
+    dayString=${MapDayCodeToDayString[$dayCode]}
+    destFolder=${LocalServer}/${room}/${dayString}/${session}/
+#    echo $destFolder   
+    if [  -d $destFolder ]
+	then
+	XCDFolder=`ls ${LocalServerCache}/bysess/$session/`
+	XCDCount=`ls ${LocalServerCache}/bysess/${session}/ | sed 's/\s+/\n/g' | uniq -c | wc -l`
+	symCount=`ls $destFolder | sed 's/\s+/\n/g' | uniq -c | wc -l`  
+
+     
+#        for file in `ls $destFolder`
+#        do 
+#        	id=`echo $file | sed 's/.*_\(.*\)\..*/\1/'`
+#      		fileString="${id}\n${fileString}"
+#	done
+#  	uniqCount="`echo -e "$fileString" | sed '/^$/d' | uniq -c |wc -l`"
+
+    	expectedCount="${countIDPerSession[$session]}"
+#echo "$session $uniqCount $XCDCount $symCount $expectedCount"
+#    echo -e "\nCount:$uniqCount $expectedCount"
+
+	if [[ "$XCDCount" != "$symCount" ]]
+      	then 
+#      echo "Good:$uniqCount $expectedCount"
+#    else 
+  		echo "Warning!!!! different count between XCD and symbolic links (with manual upload): $room $session XCDCount $XCDCount != SymbolicLinkCount $symCount"
+	fi
+
+
+	if [[ "$symCount" != "$expectedCount" ]]
+      	then 
+#      echo "Good:$uniqCount $expectedCount"
+#    else 
+  		echo "Incomplete!!!!$room $session $symCount != $expectedCount (expected)"
+	fi
+#    echo `echo $uniqCount | wc`
+    #echo $destFolder `ls $destFolder`
+   fi
+done
+
