@@ -18,3 +18,5 @@ export XCDFTPAddress="ftp://Evo2014@xcdsystem.com/"
 . ${scriptDir}/variablesMapping
 . ${scriptDir}/variablesEvoServer
 . ${scriptDir}/variablesSessions
+
+

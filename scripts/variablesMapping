@@ -23,7 +23,8 @@ MapRoomToIP=(
 )
 export MapRoomToIP
 
-
+function sshRoom { ssh admin@${MapRoomToIP[$1]}; } 
+export -f sshRoom
 
 allRoomList=${!MapRoomToIP[@]}
 export allRoomList

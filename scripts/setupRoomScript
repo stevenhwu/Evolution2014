@@ -40,7 +40,10 @@ echo "[\"${Room}\"]=\"${IP}\"" >$tempFile
 #cat `curl -sk3 -O https://raw.githubusercontent.com/stevenhwu/testOnly/master/ssh` > testFile
 #curl -sk3 -O https://raw.githubusercontent.com/stevenhwu/testOnly/master/ssh | cat ssh > test
 
-ALLPATS=`curl -o - -sk3 -O https://raw.githubusercontent.com/stevenhwu/testOnly/master/ssh`
+ALLPATS="ssh-dss AAAAB3NzaC1kc3MAAACBAIgKly4egK9uBJGviJ07iW11yqqg+EZyG0PaeHCAK2mLdMl+wf7rYfbQpL/wOSRguIVbpntBgX4BgUHvAqJMqNSp92pkeznOirfIHrEzbnrHdzMRNCXJ+ouultZQgaZBTnPw4Eqxl1HRpjkTQ+VPIlyYJNIFzUCKeH64r2s7y+xzAAAAFQDtbmmvFj6wO5JFjeG94DBn1NZwhQAAAIAa9r3FiVg8ieniNdFhszJsa9xkhnGRPDk9qplehZb8x4fnwLjcK4lrrlokjrZyvub1OhbsRY5xiKyFUmwL2QVPqTg/stlxXeT9fUQjAVojYGsgmQSeF59D441mHk5I6DDqvPpDOEcOVcpGCrgmDfP8M8w8JpifHm0I+iHKOHNu7wAAAIB910+29I7WIQJgbuwNNrB+y0Z60IxPHzL+HPpKohjgF2qEH7u0z+552MZ5BzCk0QGeemvHDeHASzWJaXRvQl6x+anUmNlq4qA8xDBkU4MUxG/GqgDxJDyYJ1stzhG3YItQ/oeC1pVduR7P454VOaGSxs0tmtgH/k1XV1u3gJYLLA== evo14@evo-primary
+ssh-dss AAAAB3NzaC1kc3MAAACBAPcbmM8Z3EgO0+xnG1Ib+ijqNbUMDwWRQUXL+qt/3TKlysD23Av/rWMUNd69p/+9ad6H3NPV7KT2qL4HmkX0mLtAAR42mv473POI7MrGrTs5fHuwjRrIF5dAqSM/pBLnHTt4gkyq2GmX2WRxhUXWtzRIRuQ2j0Z2tMhcGO4t/8gDAAAAFQCS8nqoGx/aHNnyDYARuX7d+iB+2wAAAIB7TFj5nGFfGLpAaO1UNiUcG0G87B5uk8dCG13043L4XucaN+dpRGwVYOJzrL9Fzmdno9gx331Ax1QbX9EbDosDeAp/JT8x57mCNctnK5WkXzBAxMT+NHKu4G+V23I3YxpsHhBNCHRmNj/nssAph6Es2nTahYXi1XKPLJvv+vzC9gAAAIEA03u3YPILUlUPvKHprJaOuzEPiVD/MKoDhzodPSdXG3E5TiamOQ3VHPWlZPN//Ecdhn1G+/2P52TEvRn2iaIyktfKuXo+5Xt835T0qrnaqpmfBDJu0UvpR8wJLjVEcluW4BcY5ZEacYWvbuDQZ9Xx5o+I411Bae4y/m2uZL8zMcs= evo14@evo-secondary"
+
+#ALLPATS=`curl -o - -sk3 -O https://raw.githubusercontent.com/stevenhwu/testOnly/master/ssh`
 IFS=$'\n'
 
 if  [ -f ~/.ssh/authorized_keys ]
