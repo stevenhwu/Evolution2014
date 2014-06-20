@@ -27,7 +27,14 @@ echo -e "Preprocess files at local Server.";
 #  ln -fs $f ${LocalServer}/${room}/${session}/
 #done
 
+## clean up
+RoomList="${!MapRoomToIP[@]}"
+for r in $RoomList
+do 
+   rm -r  ${LocalServer}/${r}/
+done
 
+## create ln -s
 for sess in `ls ${LocalServerCache}/bysess/`;
   do
   matchRoom=`echo $sess | sed 's/.*_\(.*\)/\1/'`

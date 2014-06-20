@@ -2,7 +2,7 @@
 
 echo -e "Preprocess manually uploaded files at local Server";
 LocalServerManualUpload=${LocalServer}/ManualUpload/
-echo $evoServerName 
+#echo $evoServerName 
 #### sync manually uploaded files between primary and secondary server
 if [  "$evoServerName" == "evo-primary" ]
     then 
@@ -35,7 +35,7 @@ do
   dayString=${MapDayCodeToDayString[$dayCode]}
   destFolder=${LocalServer}/${room}/${dayString}/${session}/
 
-  echo "$id $session $room $dayCode $dayString $talk"
+#  echo "$id $session $room $dayCode $dayString $talk"
   if [ ! -d $destFolder ]
   then
     mkdir -p $destFolder;

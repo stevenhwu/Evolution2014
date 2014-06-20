@@ -30,8 +30,8 @@ do
     if [  -d $destFolder ]
 	then
 	XCDFolder=`ls ${LocalServerCache}/bysess/$session/`
-	XCDCount=`ls ${LocalServerCache}/bysess/${session}/ | sed 's/\s+/\n/g' | uniq -c | wc -l`
-	symCount=`ls $destFolder | sed 's/\s+/\n/g' | uniq -c | wc -l`  
+	XCDCount=`ls ${LocalServerCache}/bysess/${session}/ | sed 's/\s+/\n/g' | sed 's/.*_\(.*\)\..*/\1/' | uniq -c | wc -l`
+	symCount=`ls $destFolder | sed 's/\s+/\n/g' | sed 's/.*_\(.*\)\..*/\1/' | uniq -c | wc -l`  
 
      
 #        for file in `ls $destFolder`
