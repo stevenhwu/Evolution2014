@@ -14,7 +14,6 @@ fi
 if [ ! -n "${2}" ]
 then
   today=`date +%d`
-  today=`date -d 20140622 +%d`
   dateCode="${MapDateToCode[${today}]}"
 else
   dateCode=${2}

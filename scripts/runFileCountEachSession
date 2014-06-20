@@ -7,6 +7,7 @@ unset countIDPerSession
 declare -A countIDPerSession
 #echo $RoomList
 #echo $KEY
+
 for k in $KEY
 do
     room=${mapIDToSession[$k]}
@@ -16,7 +17,7 @@ do
     #echo -e "${countIDPerSession[$room]}\n"
 done
 
-
+echo "Check XCD and links"
 for session in "${!countIDPerSession[@]}"
 do 
 #    echo $session ${countIDPerSession[$session]}
@@ -48,7 +49,7 @@ do
       	then 
 #      echo "Good:$uniqCount $expectedCount"
 #    else 
-  		echo "ERROR!!!! Error in creating symbolic link $room $session XCDCount $XCDCount != SymbolicLinkCount $symCount"
+  		echo "Warning!!!! different count between XCD and symbolic links (with manual upload): $room $session XCDCount $XCDCount != SymbolicLinkCount $symCount"
 	fi
 
 

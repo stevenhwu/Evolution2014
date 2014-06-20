@@ -1,24 +1,20 @@
 #!/bin/bash
 
 echo -e "Preprocess manually uploaded files at local Server";
-LocalServerManualUpload=${LocalServer}/ManualUpload/ 
+LocalServerManualUpload=${LocalServer}/ManualUpload/
+echo $evoServerName 
 #### sync manually uploaded files between primary and secondary server
 if [  "$evoServerName" == "evo-primary" ]
     then 
     echo "sync manually uploaded files between primary and secondary servers"
     otherIP=${evoSecondaryIP}
-#    rsync -e 'ssh' -az evo14@${evoSecondaryIP}:${LocalServerManualUpload} ${LocalServerManualUpload}
-#    rsync -e 'ssh' -az ${LocalServerManualUpload} evo14@${evoSecondaryIP}:${LocalServerManualUpload}
-
-# sync to secondary
 elif [  "$evoServerName" == "evo-secondary" ]
     then
-#    echo "sync manually uploaded files FROM secondary TO Primary, and back"
     otherIP=${evoPrimaryIP}
-#    rsync -e 'ssh' -az ${LocalServerManualUpload} evo14@${evoPrimaryIP}:${LocalServerManualUpload}
-#    rsync -e 'ssh' -az evo14@${evoPrimaryIP}:${LocalServerManualUpload} ${LocalServerManualUpload}
 fi
-if [ ! -n $otherIP ]
+
+
+if [  -n $otherIP ]
 then
     rsync -e 'ssh' -az ${LocalServerManualUpload} evo14@${otherIP}:${LocalServerManualUpload}
     rsync -e 'ssh' -az evo14@${otherIP}:${LocalServerManualUpload} ${LocalServerManualUpload}
@@ -30,7 +26,7 @@ fi
 #### Preprocess manually uploaded files at local Server
 
 #for talk in `ls ${LocalServerManualUpload}`;
-for talk in `find /home/sw167/Desktop/Evo14LocalMirror/ManualUpload/ -name P*_*`
+for talk in `find ${LocalServerManualUpload} -name P*_*`
 do
   id=`echo $talk | sed 's/.*_\(.*\)\..*/\1/'`
   session=${mapIDToSession[$id]}
@@ -44,8 +40,8 @@ do
   then
     mkdir -p $destFolder;
   fi
-  echo "ln -fs $talk $destFolder"
-#  ln -fs $talk $destFolder 
+#  echo "ln -fs $talk $destFolder"
+  ln -fs $talk $destFolder 
 
 done
 
@@ -56,57 +52,3 @@ do
     rm ${blink}
 done
 
-# for sess in `ls ${LocalServerCache}/bysess/`;
-#  do
-#  matchRoom=`echo $sess | sed 's/.*_\(.*\)/\1/'`
-#  if [ $matchRoom != "BallAB" ]
-#  then
-#    for talk in `ls ${LocalServerCache}/bysess/$sess/P*`
-#    do 
-#      id=`echo $talk | sed 's/.*_\(.*\)\..*/\1/'`
-#      session=${mapIDToSession[$id]}
-#      room=`echo $session | sed 's/.*_\(.*\)/\1/'`    
-#      dayCode=`echo $session | sed 's/\([01234]\)._.*/\1/'`
-#      dayString=${MapDayCodeToDayString[$dayCode]}
-#      destFolder=${LocalServer}/${room}/${dayString}/${session}/
-#      if [ "$matchRoom" == "$room"  ] 
-#      then 
-#    #  echo "ln -s $sess $dayCode $matchRoom $talk $talkRoom  "
-#      
-#        if [ ! -d $destFolder ]
-#        then
-#          mkdir -p $destFolder;
-#        fi
-#        ln -fs $talk $destFolder 
-#      else
-#        echo "ERROR!!! ===XCD $matchRoom ===Local: $talk $id $session $room"
-#      fi
-#    done
-#  fi
-#done
-
-
-
-#for r in "${!MapRoomToIP[@]}"; 
-#  do 
-#    if [ ! -d "${LocalServer}/${r}" ] 
-#    then 
-#      mkdir -p ${LocalServer}/$r; 
-#    fi 
- 
-  #echo -e "=====Run ${dateCode}*_${r}=====${oldDateCode}=====\n\n" 
-#  removeOld=`ls ${LocalServer}/${r}/ | grep -E "${oldDateCode}._"` 
-#  echo "${LocalServer}/${r}"
-#  echo `ls  ${LocalServer}/${r}`
-#  echo "remove: $removeOld"
-#  for old in ${removeOld}; do  
-#    rm -r ${LocalServer}/${r}/${old}/; 
-#    echo "Remov this ${LocalServer}/${r}/${old}/"
-#  done 
-
-
-#  rsync -arz --delete ${LocalServerCache}/${r} ${LocalServer}/${r};  
-
-#  rsync -arzivvv --progress  --include "*${dateCode}*_${r}*" --exclude "*" --delete-excluded ${LocalServerCache}/ ${LocalServer}/${r}; 
-#  rsync -arzivvv --progress  --include "${dateCode}*_${r}" --exclude "${oldDateCode}*" --delete-excluded ${LocalServerCache}/ ${LocalServer}/${r}/; 
-#done 
