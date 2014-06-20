@@ -39,6 +39,9 @@ do
     mkdir -p $destFolder;
   fi
 #  echo "ln -fs $talk $destFolder"
+  removeList=`find $destFolder -name \*${id}\*`
+
+  rm $removeList
   ln -fs $talk $destFolder
 
 done
