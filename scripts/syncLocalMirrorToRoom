@@ -54,7 +54,7 @@ do
     printf "rsync from localMirror to %s\tIP: %s\n" "$r" "${MapRoomToIP[$r]}";
     Room="admin@${MapRoomToIP[$r]}:/Users/admin/Desktop/${r}/${dayString}/";
     LocalMirror="${LocalServer}/${r}/${dayString}/";
-    rsync -e 'ssh -o StrictHostKeyChecking=no' -azL --delete ${LocalMirror} ${Room};
+    rsync -e 'ssh -o StrictHostKeyChecking=no' -avzL --delete ${LocalMirror} ${Room};
   #   --update --delete
   done;
   

@@ -9,6 +9,7 @@ else
   echo -e "Ping Room ${RoomList} ONLY."
 fi
 
+
 echo "Check connections"
 unset goodRoomList
 declare goodRoomList
@@ -24,5 +25,4 @@ do
     goodRoomList+=" $room"
   fi
 done
-echo $goodRoomList
-
+echo "GoodRoomList: $goodRoomList"

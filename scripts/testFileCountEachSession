@@ -67,10 +67,10 @@ do
 #  	    echo "Warning!!!! different count between XCD and symbolic links (due to manual uploads and canceled talks): $room $session XCDCount $XCDCount != SymbolicLinkCount $symCount"
 #	fi
 
-#	if [[ "$symCount" != "$expectedCount" ]]
-#      	then 
-#  		echo "Incomplete!!!!$room $session $symCount != $expectedCount (expected)"
-#	fi
+	if [[ "$symCount" != "$expectedCount" ]]
+      	then 
+  		echo "Incomplete!!!!$room $session $symCount != $expectedCount (expected)"
+	fi
 
         if [[ ${goodRoomList} == *${room}*  ]]
         then 

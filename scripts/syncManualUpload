@@ -40,8 +40,10 @@ do
   fi
 #  echo "ln -fs $talk $destFolder"
   removeList=`find $destFolder -name \*${id}\*`
-
-  rm $removeList
+  if [ !  -z $removeList ]
+  then 
+    rm -f $removeList
+  fi
   ln -fs $talk $destFolder
 
 done
