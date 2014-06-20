@@ -5,6 +5,15 @@ variablesMapping: Store the IPs and room number for all the presentation laptops
 setupRoomScript: update primary/secondary IP addresses
 
 
+===== Useful alias/variables =====
+$MapRoomToIP		store room and IP info
+$evoServerName		server name, either evo-primary OR evo-secondary
+
+sshRoom roomNumber	ssh into a presentation room. roomNumber have to exist in $MapRoomToIP
+sshPrimary		ssh into evo-primary server
+sshSecondary		ssh inot evo-secondary server
+
+
 ===== Usage =====
 There are several scripts to ensure all presentations are synced properly. The most useful one are the follow.
 
@@ -54,6 +63,7 @@ Local primary/secondary servers:
 ~/Desktop/Evo14LocalMirror/		Local Mirror
 ~/Desktop/Evo14LocalMirror/Log		All log files from crontab
 ~/Desktop/Evo14LocalMirror/Cache	Presentation synced from XCD
+~/Desktop/Evo14LocalMirror/ManualUpload	Files uploaded from the evo-primary/secondary server, NOT on XCD
 ~/Desktop/Evo14LocalMirror/RoomInfo	Store room-IP info from each presentation laptop
 
 201 – 402,BalC		Presentation room. Each room should only have the symbolic link which points to the presentations.
@@ -83,3 +93,5 @@ syncXCDToLocalMirror_wget: sync presentations from XCD server to local server us
 variableSessions: Map presentation ID to session number
 variablesEvoServer: Basic server info
 variablesMapping: Map room number to IP address, and map date to “dayCode”
+
+

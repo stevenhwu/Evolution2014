@@ -4,7 +4,7 @@
 export evoPrimaryIP="10.12.99.100"
 export evoSecondaryIP="10.12.99.101"
 export testLaptopIP="10.12.99.110"
-export toTestingLaptop="admin@10.12.99.110:~/"
+export toTestingLaptop="admin@10.12.99.110:~/Downloads/"
 
 alias sshPrimary='ssh evo14@$evoPrimaryIP'
 alias sshSecondary='ssh evo14@$evoSecondaryIP'
