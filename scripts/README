@@ -32,6 +32,13 @@ runPushToRoom: Sync presentations to presentation room(s).
 	./runPushToRoom 301A 301B	# Error, two room numbers
 	./runPushToRoom 22		# Error, got date but no room number
 
+runManualUpload: setup symbolic links after a file is manually uploaded
+	- All manual uploaded files should be in the /home/sw167/Desktop/Evo14LocalMirror/ManualUpload/ folder
+	- Files in the folder have high priority than files in the Cache folder (the symbolic link will points toward ManualUpload folder)
+	- This file is automatically executed within PrecessLocalCache
+
+	usage:
+	./runManualupload
 
 runSyncXCD: Sync presentations from XCD and preprocess them locally. This one runs frequently in crontab. Shouldn't need to run this manually.
 	usage:
