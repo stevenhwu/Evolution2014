@@ -18,7 +18,8 @@ do
 done
 
 echo "Check XCD and links"
-for session in "`echo ${!countIDPerSession[@]}|sort`"
+#for session in "`echo ${!countIDPerSession[@]}|sort`"
+for session in "${!countIDPerSession[@]}"
 do 
 #    echo $session ${countIDPerSession[$session]}
     room=`echo $session | sed 's/.*_\(.*\)/\1/'`            

@@ -48,7 +48,7 @@ done
 BrokenLinks=`find ${LocalServer} -type l -xtype l`
 for blink in ${BrokenLinks}
 do
-    echo "ERROR!! broken links: ${blink}"
+    echo "Warning!! broken links will be removed: ${blink}"
     rm ${blink}
 done
 

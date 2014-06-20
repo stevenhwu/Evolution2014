@@ -37,21 +37,28 @@ for sess in `ls ${LocalServerCache}/bysess/`;
     do 
       id=`echo $talk | sed 's/.*_\(.*\)\..*/\1/'`
       session=${mapIDToSession[$id]}
-      room=`echo $session | sed 's/.*_\(.*\)/\1/'`    
-      dayCode=`echo $session | sed 's/\([01234]\)._.*/\1/'`
-      dayString=${MapDayCodeToDayString[$dayCode]}
-      destFolder=${LocalServer}/${room}/${dayString}/${session}/
-      if [[ "$matchRoom" == "$room"  && "$sess" == "$session" ]]
-      then 
+      if [ -z $session ]
+	then
+	    echo "Note: canceled talk $id $session"
+      else
+
+        room=`echo $session | sed 's/.*_\(.*\)/\1/'`    
+        dayCode=`echo $session | sed 's/\([01234]\)._.*/\1/'`
+        dayString=${MapDayCodeToDayString[$dayCode]}
+        destFolder=${LocalServer}/${room}/${dayString}/${session}/
+
+        if [[ "$matchRoom" == "$room"  && "$sess" == "$session" ]]
+        then 
     #  echo "ln -s $sess $dayCode $matchRoom $talk $talkRoom  "
       
-        if [ ! -d $destFolder ]
-        then
-          mkdir -p $destFolder;
+          if [ ! -d $destFolder ]
+          then
+            mkdir -p $destFolder;
+          fi
+          ln -fs $talk $destFolder 
+        else
+          echo "ERROR!!! XCD session != local session. ==XCD: $sess $matchRoom ===Local: $id $session $room $talk"
         fi
-        ln -fs $talk $destFolder 
-      else
-        echo "ERROR!!! XCD session != local session. ==XCD: $sess $matchRoom ===Local: $talk $id $session $room"
       fi
     done
   fi
