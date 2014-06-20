@@ -1,10 +1,3 @@
-===== TODO list at RCC =====
-
-variablesEvoServer: Store the IPs for primary and secondary server
-variablesMapping: Store the IPs and room number for all the presentation laptops.
-setupRoomScript: update primary/secondary IP addresses
-
-
 ===== Useful alias/variables =====
 $MapRoomToIP		store room and IP info
 $evoServerName		server name, either evo-primary OR evo-secondary
@@ -12,7 +5,6 @@ $evoServerName		server name, either evo-primary OR evo-secondary
 sshRoom roomNumber	ssh into a presentation room. roomNumber have to exist in $MapRoomToIP
 sshPrimary		ssh into evo-primary server
 sshSecondary		ssh inot evo-secondary server
-
 
 ===== Usage =====
 There are several scripts to ensure all presentations are synced properly. The most useful one are the follow.
@@ -43,6 +35,8 @@ runPushToRoom: Sync presentations to presentation room(s).
 
 runManualUpload: setup symbolic links after a file is manually uploaded
 	- All manual uploaded files should be in the /home/sw167/Desktop/Evo14LocalMirror/ManualUpload/ folder
+	- For standard presentation, rename it to standard format. PresentationFile_ID.*
+	- Create a folder with AbstractID, and put movies in there without renaming it
 	- Files in the folder have high priority than files in the Cache folder (the symbolic link will points toward ManualUpload folder)
 	- This file is automatically executed within PrecessLocalCache
 
