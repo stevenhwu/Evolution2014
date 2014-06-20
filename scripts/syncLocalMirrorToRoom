@@ -26,12 +26,30 @@ fi
 #oldDateCode=`expr $dateCode - 1`
 #oldDateCode=`echo "$dateCode-1" | bc`
 
+
+unset goodRoomList
+declare goodRoomList
+for room in $RoomList
+do
+  remote=`ping -c 3 ${MapRoomToIP["$room"]}`
+#  echo -e "\n\n $room \n$remote"
+  if  `echo $remote | grep -q "Unreachable"`
+  then
+    echo "ERROR!! unreachable $room"
+  else
+#    echo "GOOD. $room"
+    goodRoomList+=" $room"
+  fi
+done
+echo $goodRoomList
+
+
 for dateCode in $allDateCode
 do
   dayString=${MapDayCodeToDayString[$dateCode]}
   echo -e "Sync for Day ${dateCode} ${dayString}.";
  
-  for r in $RoomList;
+  for r in $goodRoomList;
   do
     printf "rsync from localMirror to %s\tIP: %s\n" "$r" "${MapRoomToIP[$r]}";
     Room="admin@${MapRoomToIP[$r]}:/Users/admin/Desktop/${r}/${dayString}/";

@@ -1,8 +1,18 @@
 #!/bin/bash
 # check id count's per session
 
+
+if [[ ! -n "${1}" || ${1} == "ALL" ||  ${1} == "all" ]]
+then
+  RoomList="${!MapRoomToIP[@]}"
+  echo -e "Sync from Local to ALL Rooms: ${RoomList}."
+else
+  RoomList=$1
+  echo -e "Sync from Local to Room ${RoomList} ONLY."
+fi
+
+
 KEY="${!mapIDToSession[@]}"
-RoomList="${!MapRoomToIP[@]}"
 unset countIDPerSession
 declare -A countIDPerSession
 #echo $RoomList
@@ -17,9 +27,26 @@ do
     #echo -e "${countIDPerSession[$room]}\n"
 done
 
+echo "Check connections"
+unset goodRoomList
+declare goodRoomList
+for room in $RoomList
+do 
+  remote=`ping -c 1 ${MapRoomToIP["$room"]}`
+#  echo -e "\n\n $room \n$remote"
+  if  `echo $remote | grep -q "Unreachable"` 
+  then
+    echo "ERROR!! unreachable $room"
+  else
+#    echo "GOOD. $room"
+    goodRoomList+=" $room"
+  fi
+done
+echo "GoodRoomList: $goodRoomList"
+
 echo "Check XCD and links"
-#for session in "`echo ${!countIDPerSession[@]}|sort`"
-for session in "${!countIDPerSession[@]}"
+for session in `echo ${!countIDPerSession[@]} | sed 's/\s\+/\n/g' | sort`
+#for session in "${!countIDPerSession[@]}"
 do 
 #    echo $session ${countIDPerSession[$session]}
     room=`echo $session | sed 's/.*_\(.*\)/\1/'`            
@@ -33,43 +60,32 @@ do
 	XCDCount=`ls ${LocalServerCache}/bysess/${session}/ | sed 's/\s+/\n/g' | sed 's/.*_\(.*\)\..*/\1/' | uniq -c | wc -l`
 	symCount=`ls $destFolder | sed 's/\s+/\n/g' | sed 's/.*_\(.*\)\..*/\1/' | uniq -c | wc -l`  
 
-     
-#        for file in `ls $destFolder`
-#        do 
-#        	id=`echo $file | sed 's/.*_\(.*\)\..*/\1/'`
-#      		fileString="${id}\n${fileString}"
-#	done
-#  	uniqCount="`echo -e "$fileString" | sed '/^$/d' | uniq -c |wc -l`"
-
     	expectedCount="${countIDPerSession[$session]}"
-#echo "$session $uniqCount $XCDCount $symCount $expectedCount"
-#    echo -e "\nCount:$uniqCount $expectedCount"
 
-	if [[ "$XCDCount" != "$symCount" ]]
-      	then 
-  	    echo "Warning!!!! different count between XCD and symbolic links (due to manual uploads and canceled talks): $room $session XCDCount $XCDCount != SymbolicLinkCount $symCount"
-	fi
+#	if [[ "$XCDCount" != "$symCount" ]]
+#      	then 
+#  	    echo "Warning!!!! different count between XCD and symbolic links (due to manual uploads and canceled talks): $room $session XCDCount $XCDCount != SymbolicLinkCount $symCount"
+#	fi
 
-	if [[ "$symCount" != "$expectedCount" ]]
-      	then 
-#      echo "Good:$uniqCount $expectedCount"
-#    else 
-  		echo "Incomplete!!!!$room $session $symCount != $expectedCount (expected)"
-	fi
+#	if [[ "$symCount" != "$expectedCount" ]]
+#      	then 
+#  		echo "Incomplete!!!!$room $session $symCount != $expectedCount (expected)"
+#	fi
 
-	remoteFolder="/Users/admin/Desktop/${room}/${dayString}/${session}"
-        remoteList=`ssh admin@${MapRoomToIP["$room"]} bash -c "'
+        if [[ ${goodRoomList} == *${room}*  ]]
+        then 
+          remoteFolder="/Users/admin/Desktop/${room}/${dayString}/${session}"
+          remoteList=`ssh admin@${MapRoomToIP["$room"]} bash -c "'
 		cd $remoteFolder
 		ls
 		'"`
 
-	#echo $remoteList
-	remoteCount=`echo ${remoteList} | sed 's/\s\+/\n/g' | sed 's/.*_\(.*\)\..*/\1/g' | uniq -c | wc -l`
-#	echo $remoteCount
+	  remoteCount=`echo ${remoteList} | sed 's/\s\+/\n/g' | sed 's/.*_\(.*\)\..*/\1/g' | uniq -c | wc -l`
 
-	if [[ "$remoteCount" != "$symCount" ]]
-        then
-          echo -e "ERROR!!!!$room $session $remoteCount != $symCount($expectedCount) (remoteCount != serverCount)\n"
+	  if [[ "$remoteCount" != "$symCount" ]]
+          then
+            echo -e "ERROR!!!!$room $session $remoteCount != $symCount($expectedCount) (remoteCount != serverCount)\n${remoteList}\n\n"
+          fi
         fi
 
 

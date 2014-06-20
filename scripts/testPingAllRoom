@@ -1,0 +1,28 @@
+#!/bin/bash
+
+if [[ ! -n "${1}" || ${1} == "ALL" ||  ${1} == "all" ]]
+then
+  RoomList="${!MapRoomToIP[@]}"
+  echo -e "Ping ALL Rooms: ${RoomList}."
+else
+  RoomList=$1
+  echo -e "Ping Room ${RoomList} ONLY."
+fi
+
+echo "Check connections"
+unset goodRoomList
+declare goodRoomList
+for room in $RoomList
+do
+  remote=`ping -c 1 ${MapRoomToIP["$room"]}`
+#  echo -e "\n\n $room \n$remote"
+  if  `echo $remote | grep -q "Unreachable"`
+  then
+    echo "ERROR!! unreachable $room"
+  else
+#    echo "GOOD. $room"
+    goodRoomList+=" $room"
+  fi
+done
+echo $goodRoomList
+

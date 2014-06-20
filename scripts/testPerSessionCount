@@ -1,0 +1,25 @@
+#!/bin/bash
+
+KEY="${!mapIDToSession[@]}"
+RoomList="${!MapRoomToIP[@]}"
+unset countIDPerSession
+declare -A countIDPerSession
+#echo $RoomList
+#echo $KEY
+
+for k in $KEY
+do
+    room=${mapIDToSession[$k]}
+    #echo $k $room ${countIDPerSession[$room]}
+    COUNTER=$((COUNTER + 1))
+    countIDPerSession[$room]=$(( countIDPerSession[$room]  +1))
+    #echo -e "${countIDPerSession[$room]}\n"
+done
+
+
+for session in `echo ${!countIDPerSession[@]} | sed 's/\s\+/\n/g' | sort`
+#for session in "${!countIDPerSession[@]}"
+do 
+    echo -e "${session}\t${countIDPerSession[$session]}"
+done
+
