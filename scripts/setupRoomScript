@@ -46,6 +46,19 @@ ssh-dss AAAAB3NzaC1kc3MAAACBAPcbmM8Z3EgO0+xnG1Ib+ijqNbUMDwWRQUXL+qt/3TKlysD23Av/
 #ALLPATS=`curl -o - -sk3 -O https://raw.githubusercontent.com/stevenhwu/testOnly/master/ssh`
 IFS=$'\n'
 
+
+## generate ssh key, if it doesn't exist
+if [ -f ~/.ssh/id_dsa.pub ]
+  then
+    echo "Local dsa.pub exist"
+  else
+    echo "Create local keys"
+    ssh-keygen -t dsa -f ~/.ssh/id_dsa
+fi
+
+
+
+## check pub keys
 if  [ -f ~/.ssh/authorized_keys ]
 then
   for PAT in $ALLPATS 
@@ -64,15 +77,6 @@ else
 fi
 
 unset IFS
-
-## generate ssh key, if it doesn't exist
-if [ -f ~/.ssh/id_dsa.pub ]
-  then
-    echo "Local dsa.pub exist"
-  else
-    echo "Create local keys"
-    ssh-keygen -t dsa -f ~/.ssh/id_dsa
-fi
 
 
 #GET_ID="cat ~/.ssh/id_dsa.pub"
