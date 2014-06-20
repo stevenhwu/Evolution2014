@@ -47,11 +47,8 @@ do
 
 	if [[ "$XCDCount" != "$symCount" ]]
       	then 
-#      echo "Good:$uniqCount $expectedCount"
-#    else 
-  		echo "Warning!!!! different count between XCD and symbolic links (with manual upload): $room $session XCDCount $XCDCount != SymbolicLinkCount $symCount"
+  	    echo "Warning!!!! different count between XCD and symbolic links (due to manual uploads and canceled talks): $room $session XCDCount $XCDCount != SymbolicLinkCount $symCount"
 	fi
-
 
 	if [[ "$symCount" != "$expectedCount" ]]
       	then 
@@ -59,6 +56,23 @@ do
 #    else 
   		echo "Incomplete!!!!$room $session $symCount != $expectedCount (expected)"
 	fi
+
+	remoteFolder="/Users/admin/Desktop/${room}/${dayString}/${session}"
+        remoteList=`ssh admin@${MapRoomToIP["$room"]} bash -c "'
+		cd $remoteFolder
+		ls
+		'"`
+
+	#echo $remoteList
+	remoteCount=`echo ${remoteList} | sed 's/\s\+/\n/g' | sed 's/.*_\(.*\)\..*/\1/g' | uniq -c | wc -l`
+#	echo $remoteCount
+
+	if [[ "$remoteCount" != "$symCount" ]]
+        then
+          echo -e "ERROR!!!!$room $session $remoteCount != $symCount($expectedCount) (remoteCount != serverCount)\n"
+        fi
+
+
 #    echo `echo $uniqCount | wc`
     #echo $destFolder `ls $destFolder`
    fi

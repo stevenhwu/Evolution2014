@@ -23,56 +23,76 @@ else
     echo "Warning!! Running on other server other then evo-* server"
 fi
 
-
-#### Preprocess manually uploaded files at local Server
-
-for talkname in `ls ${LocalServerManualUpload}`;
-#for talk in `find ${LocalServerManualUpload} -name P*_*`
+#for talk in `ls ${LocalServerManualUpload}`;
+for talk in `find ${LocalServerManualUpload} -name P*_*`
 do
-  talk=${LocalServerManualUpload}/${talkname}
-  echo "==$talk"
-  if [ -d $talk ]
-  then 
-#    echo "link inside folders"
-    id=${talkname}
+  id=`echo $talk | sed 's/.*_\(.*\)\..*/\1/'`
+  session=${mapIDToSession[$id]}
+  room=`echo $session | sed 's/.*_\(.*\)/\1/'`
+  dayCode=`echo $session | sed 's/\([01234]\)._.*/\1/'`
+  dayString=${MapDayCodeToDayString[$dayCode]}
+  destFolder=${LocalServer}/${room}/${dayString}/${session}/
 
-    session=${mapIDToSession[$id]}
-    room=`echo $session | sed 's/.*_\(.*\)/\1/'`
-    dayCode=`echo $session | sed 's/\([01234]\)._.*/\1/'`
-    dayString=${MapDayCodeToDayString[$dayCode]}
-    destFolder=${LocalServer}/${room}/${dayString}/${session}/
-    if [ ! -d $destFolder ]
-    then
-      mkdir -p $destFolder;
-    fi
- 
-    for fileInFolder in `ls $talk`
-    do     
-      echo "ln -fs ${talk}/${fileInFolder} $destFolder"
-      ln -fs ${talk}/${fileInFolder} $destFolder
-    done
-  else
-#    echo "linkFiles"
-    id=`echo $talk | sed 's/.*_\(.*\)\..*/\1/'`
-
-    session=${mapIDToSession[$id]}
-    room=`echo $session | sed 's/.*_\(.*\)/\1/'`    
-    dayCode=`echo $session | sed 's/\([01234]\)._.*/\1/'`
-    dayString=${MapDayCodeToDayString[$dayCode]}
-    destFolder=${LocalServer}/${room}/${dayString}/${session}/
-
-    echo "$id $session $room $dayCode $dayString $talk"
-    if [ ! -d $destFolder ]
-    then
-      mkdir -p $destFolder;
-    fi
-    echo "ln -fs $talk $destFolder"
-    ln -fs $talk $destFolder 
-
- fi
+#  echo "$id $session $room $dayCode $dayString $talk"
+  if [ ! -d $destFolder ]
+  then
+    mkdir -p $destFolder;
+  fi
+#  echo "ln -fs $talk $destFolder"
+  ln -fs $talk $destFolder
 
 done
 
+
+###### Preprocess manually uploaded files at local Server, loop through the folder
+#
+#for talkname in `ls ${LocalServerManualUpload}`;
+##for talk in `find ${LocalServerManualUpload} -name P*_*`
+#do
+#  talk=${LocalServerManualUpload}/${talkname}
+#  echo "==$talk"
+#  if [ -d $talk ]
+#  then 
+##    echo "link inside folders"
+#    id=${talkname}
+#
+#    session=${mapIDToSession[$id]}
+#    room=`echo $session | sed 's/.*_\(.*\)/\1/'`
+#    dayCode=`echo $session | sed 's/\([01234]\)._.*/\1/'`
+#    dayString=${MapDayCodeToDayString[$dayCode]}
+#    destFolder=${LocalServer}/${room}/${dayString}/${session}/
+#    if [ ! -d $destFolder ]
+#    then
+#      mkdir -p $destFolder;
+#    fi
+# 
+#    for fileInFolder in `ls $talk`
+#    do     
+#      echo "ln -fs ${talk}/${fileInFolder} $destFolder"
+#      ln -fs ${talk}/${fileInFolder} $destFolder
+#    done
+#  else
+##    echo "linkFiles"
+#    id=`echo $talk | sed 's/.*_\(.*\)\..*/\1/'`
+#
+#    session=${mapIDToSession[$id]}
+#    room=`echo $session | sed 's/.*_\(.*\)/\1/'`    
+#    dayCode=`echo $session | sed 's/\([01234]\)._.*/\1/'`
+#    dayString=${MapDayCodeToDayString[$dayCode]}
+#    destFolder=${LocalServer}/${room}/${dayString}/${session}/
+#
+#    echo "$id $session $room $dayCode $dayString $talk"
+#    if [ ! -d $destFolder ]
+#    then
+#      mkdir -p $destFolder;
+#    fi
+#    echo "ln -fs $talk $destFolder"
+#    ln -fs $talk $destFolder 
+#
+# fi
+#
+#done
+#
 
 BrokenLinks=`find ${LocalServer} -type l -xtype l`
 for blink in ${BrokenLinks}

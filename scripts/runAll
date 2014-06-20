@@ -5,6 +5,6 @@ export scriptDir="${HOME}/Evolution2014/scripts/"
 #. ${scriptDir}/syncXCDToLocalMirror_wget
 . ${scriptDir}/syncXCDToLocalMirror
 . ${scriptDir}/syncProcessLocalCache
-. ${scriptDir}/syncLocalMirrorToRoom
+. ${scriptDir}/syncLocalMirrorToRoom ALL ALL
 #. ${scriptDir}/syncLocalMirrorToRoom_sftp
 

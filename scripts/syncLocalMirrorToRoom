@@ -14,29 +14,30 @@ fi
 if [ ! -n "${2}" ]
 then
   today=`date +%d`
-  dateCode="${MapDateToCode[${today}]}"
+  allDateCode="${MapDateToCode[${today}]}"
+elif [[ ${2} == "ALL" ||  ${2} == "all" ]]
+  then
+  allDateCode="0 1 2 3 4"
 else
-  dateCode=${2}
+  allDateCode=${2}
 fi
 
 #echo $today ${MapDateToCode[$today]} ${MapDayCodeToDayString[$dayCode]}
 #oldDateCode=`expr $dateCode - 1`
 #oldDateCode=`echo "$dateCode-1" | bc`
 
-dayString=${MapDayCodeToDayString[$dateCode]}
-#destFolder=${LocalServer}/${room}/${dayString}/${session}/
-
-
-echo -e "Sync for Day ${dateCode} ${dayString}.\n";
-
-
-for r in $RoomList;
+for dateCode in $allDateCode
 do
-  printf "rsync from localMirror to %s\tIP: %s\n" "$r" "${MapRoomToIP[$r]}";
-  Room="admin@${MapRoomToIP[$r]}:/Users/admin/Desktop/${r}/${dayString}/";
-  LocalMirror="${LocalServer}/${r}/${dayString}/";
-  rsync -e 'ssh -o StrictHostKeyChecking=no' -azL --delete ${LocalMirror} ${Room};
-#   --update --delete
-done;
-
-
+  dayString=${MapDayCodeToDayString[$dateCode]}
+  echo -e "Sync for Day ${dateCode} ${dayString}.";
+ 
+  for r in $RoomList;
+  do
+    printf "rsync from localMirror to %s\tIP: %s\n" "$r" "${MapRoomToIP[$r]}";
+    Room="admin@${MapRoomToIP[$r]}:/Users/admin/Desktop/${r}/${dayString}/";
+    LocalMirror="${LocalServer}/${r}/${dayString}/";
+    rsync -e 'ssh -o StrictHostKeyChecking=no' -azL --delete ${LocalMirror} ${Room};
+  #   --update --delete
+  done;
+  
+done
