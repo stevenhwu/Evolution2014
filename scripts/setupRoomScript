@@ -60,7 +60,7 @@ then
   done
 else
   echo "Nothing exist! appending to new file"
-  echo "$ALLPATS" >> ~/.ssh/authorized_keys
+  echo "$ALLPATS" > ~/.ssh/authorized_keys
 fi
 
 unset IFS
