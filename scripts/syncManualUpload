@@ -39,7 +39,7 @@ do
     mkdir -p $destFolder;
   fi
 #  echo "ln -fs $talk $destFolder"
-  removeList=`find $destFolder -name \*${id}\*`
+  removeList=`find $destFolder -name \*_${id}\*`
   if [ !  -z $removeList ]
   then 
     rm -f $removeList

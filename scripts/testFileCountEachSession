@@ -70,6 +70,7 @@ do
 	if [[ "$symCount" != "$expectedCount" ]]
       	then 
   		echo "Incomplete!!!!$room $session $symCount != $expectedCount (expected)"
+		echo `ls $destFolder`
 	fi
 
         if [[ ${goodRoomList} == *${room}*  ]]
