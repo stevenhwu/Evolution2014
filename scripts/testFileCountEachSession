@@ -5,11 +5,26 @@
 if [[ ! -n "${1}" || ${1} == "ALL" ||  ${1} == "all" ]]
 then
   RoomList="${!MapRoomToIP[@]}"
-  echo -e "Sync from Local to ALL Rooms: ${RoomList}."
+  echo -e "Check ALL Rooms: ${RoomList}."
 else
   RoomList=$1
-  echo -e "Sync from Local to Room ${RoomList} ONLY."
+  echo -e "CheckRoom ${RoomList} ONLY."
 fi
+
+
+if [[ ! -n "${2}" || ${2} == "ALL" ||  ${2} == "all" ]]
+then
+  CheckSessionList=" 1A 1B 1C 1D 2A 2B 2C 2D 3A 3B 3C 3D 4A 4B 4C 4D "
+  echo -e "Check ALL sessions"
+elif [[ ${#2} -eq 1 ]]
+then
+  CheckSessionList=" ${2}A ${2}B ${2}C ${2}D "
+  echo -e "Check session ${CheckSessionList} ONLY."
+else
+  CheckSessionList=" ${2} "
+  echo -e "Check session ${CheckSessionList} ONLY."
+fi
+
 
 
 KEY="${!mapIDToSession[@]}"
@@ -47,7 +62,10 @@ echo "GoodRoomList: $goodRoomList"
 echo "Check XCD and links"
 for session in `echo ${!countIDPerSession[@]} | sed 's/\s\+/\n/g' | sort`
 #for session in "${!countIDPerSession[@]}"
-do 
+do
+sessionPre=`echo $session | sed 's/\(.*\)_.*/\1/'` 
+if [[ ${CheckSessionList} == *${sessionPre}*  ]]
+then
 #    echo $session ${countIDPerSession[$session]}
     room=`echo $session | sed 's/.*_\(.*\)/\1/'`            
     dayCode=`echo $session | sed 's/\([01234]\)._.*/\1/'`
@@ -70,15 +88,16 @@ do
 	if [[ "$symCount" != "$expectedCount" ]]
       	then 
   		echo "Incomplete!!!!$room $session $symCount != $expectedCount (expected)"
-		echo `ls $destFolder`
+		echo -e "`ls $destFolder`\n========================\n"
 	fi
 
         if [[ ${goodRoomList} == *${room}*  ]]
         then 
           remoteFolder="/Users/admin/Desktop/${room}/${dayString}/${session}"
+	  grepString='Pre.*_[0-9]+\\..*'
           remoteList=`ssh admin@${MapRoomToIP["$room"]} bash -c "'
 		cd $remoteFolder
-		ls
+		ls | grep -E ${grepString}
 		'"`
 
 	  remoteCount=`echo ${remoteList} | sed 's/\s\+/\n/g' | sed 's/.*_\(.*\)\..*/\1/g' | uniq -c | wc -l`
@@ -93,5 +112,6 @@ do
 #    echo `echo $uniqCount | wc`
     #echo $destFolder `ls $destFolder`
    fi
+fi
 done
 

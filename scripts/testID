@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [  -n "${1}" ]
+then
+  pat="*_${1}.*"
+  list=`find ${LocalServer} -name ${pat}`
+  out="`echo $list | sed 's/\s/\n/g'`"
+  echo -e  "$out"
+else 
+  echo "error"
+fi 
+
