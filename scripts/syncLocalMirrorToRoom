@@ -28,21 +28,22 @@ fi
 
 
 unset goodRoomList
-declare goodRoomList
-for room in $RoomList
-do
-  remote=`ping -c 3 ${MapRoomToIP["$room"]}`
-#  echo -e "\n\n $room \n$remote"
-  if  `echo $remote | grep -q "Unreachable"`
-  then
-    echo "ERROR!! unreachable $room"
-  else
-#    echo "GOOD. $room"
-    goodRoomList+=" $room"
-  fi
-done
-echo $goodRoomList
+##declare goodRoomList
+#for room in $RoomList
+#do
+#  remote=`ping -c 3 ${MapRoomToIP["$room"]}`
+##  echo -e "\n\n $room \n$remote"
+#  if  `echo $remote | grep -q "Unreachable"`
+#  then
+#    echo "ERROR!! unreachable $room"
+#  else
+##    echo "GOOD. $room"
+#    goodRoomList+=" $room"
+#  fi
+#done
+#echo $goodRoomList
 
+goodRoomList="`source ${scriptDir}/testPingAllRoom`"
 
 for dateCode in $allDateCode
 do

@@ -3,14 +3,14 @@
 if [[ ! -n "${1}" || ${1} == "ALL" ||  ${1} == "all" ]]
 then
   RoomList="${!MapRoomToIP[@]}"
-  echo -e "Ping ALL Rooms: ${RoomList}."
+  echo -e "Ping ALL Rooms: ${RoomList}." >&2
 else
   RoomList=$1
-  echo -e "Ping Room ${RoomList} ONLY."
+  echo -e "Ping Room ${RoomList} ONLY." >&2
 fi
 
 
-echo "Check connections"
+echo "Check connections" >&2
 unset goodRoomList
 declare goodRoomList
 for room in $RoomList
@@ -19,10 +19,11 @@ do
 #  echo -e "\n\n $room \n$remote"
   if  `echo $remote | grep -q "Unreachable"`
   then
-    echo "ERROR!! unreachable $room"
+    echo "ERROR!! unreachable $room" >&2
   else
 #    echo "GOOD. $room"
     goodRoomList+=" $room"
   fi
 done
-echo "GoodRoomList: $goodRoomList"
+echo "GoodRoomList: $goodRoomList" >&2
+echo "$goodRoomList"

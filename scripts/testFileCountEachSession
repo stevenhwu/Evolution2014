@@ -29,15 +29,10 @@ else
 fi
 
 
-echo "TESTING"
-. ${scriptDir}/test
-rc=$?
-echo $rc
-
 KEY="${!mapIDToSession[@]}"
 unset countIDPerSession
 declare -A countIDPerSession
-#echo $RoomList
+#echo ${mapIDToSession[9]}
 #echo $KEY
 
 for k in $KEY
@@ -49,22 +44,23 @@ do
     #echo -e "${countIDPerSession[$room]}\n"
 done
 
-echo "Check connections"
-unset goodRoomList
-declare goodRoomList
-for room in $RoomList
-do 
-  remote=`ping -c 1 ${MapRoomToIP["$room"]}`
-#  echo -e "\n\n $room \n$remote"
-  if  `echo $remote | grep -q "Unreachable"` 
-  then
-    echo "ERROR!! unreachable $room"
-  else
-#    echo "GOOD. $room"
-    goodRoomList+=" $room"
-  fi
-done
-echo "GoodRoomList: $goodRoomList"
+##echo "Check connections"
+#unset goodRoomList
+#declare goodRoomList
+#for room in $RoomList
+#do 
+#  remote=`ping -c 1 ${MapRoomToIP["$room"]}`
+##  echo -e "\n\n $room \n$remote"
+#  if  `echo $remote | grep -q "Unreachable"` 
+#  then
+#    echo "ERROR!! unreachable $room"
+#  else
+##    echo "GOOD. $room"
+#    goodRoomList+=" $room"
+#  fi
+#done
+goodRoomList="`source ${scriptDir}/testPingAllRoom`"
+#echo "GoodRoomList: $goodRoomList"
 
 echo "Check XCD and links"
 for session in `echo ${!countIDPerSession[@]} | sed 's/\s\+/\n/g' | sort`
@@ -79,7 +75,7 @@ then
     dayString=${MapDayCodeToDayString[$dayCode]}
     destFolder=${LocalServer}/${room}/${dayString}/${session}/
 #    echo $destFolder   
-    if [  -d $destFolder ]
+    if [[  -d $destFolder  && ${goodRoomList} == *${room}* ]]
 	then
 	XCDFolder=`ls ${LocalServerCache}/bysess/$session/`
 	XCDCount=`ls ${LocalServerCache}/bysess/${session}/ | sed 's/\s+/\n/g' | sed 's/.*_\(.*\)\..*/\1/' | uniq -c | wc -l`
@@ -98,8 +94,8 @@ then
 		echo -e "`ls $destFolder`\n========================\n"
 	fi
 
-        if [[ ${goodRoomList} == *${room}*  ]]
-        then 
+        #if [[ ${goodRoomList} == *${room}*  ]]
+        #then 
           remoteFolder="/Users/admin/Desktop/${room}/${dayString}/${session}"
 	  grepString='Pre.*_[0-9]+\\..*'
           remoteList=`ssh admin@${MapRoomToIP["$room"]} bash -c "'
@@ -113,7 +109,7 @@ then
           then
             echo -e "ERROR!!!!$room $session $remoteCount != $symCount($expectedCount) (remoteCount != serverCount)\n${remoteList}\n\n"
           fi
-        fi
+#        fi
 
 
 #    echo `echo $uniqCount | wc`
