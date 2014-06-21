@@ -1,6 +1,9 @@
 #!/bin/bash
 # check id count's per session
 
+export scriptDir="${HOME}/Evolution2014/scripts/"
+. ${scriptDir}/exportAllVariables
+
 
 if [[ ! -n "${1}" || ${1} == "ALL" ||  ${1} == "all" ]]
 then
@@ -26,6 +29,10 @@ else
 fi
 
 
+echo "TESTING"
+. ${scriptDir}/test
+rc=$?
+echo $rc
 
 KEY="${!mapIDToSession[@]}"
 unset countIDPerSession
