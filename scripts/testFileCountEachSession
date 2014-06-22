@@ -101,7 +101,7 @@ then
 	if [[ "$symCount" != "$expectedCount" ]]
       	then 
   		echo "Incomplete!!!!$room $session $symCount != $expectedCount (expected)"
-		echo -e "`ls $destFolder`\n${mapSessionBackToID[$session]}\n==============================\n"
+		echo -e "`ls $destFolder`\nExpect: ${mapSessionBackToID[$session]}\n==============================\n"
 	fi
 
         #if [[ ${goodRoomList} == *${room}*  ]]
@@ -117,7 +117,12 @@ then
 
 	  if [[ "$remoteCount" != "$symCount" ]]
           then
-            echo -e "ERROR!!!!$room $session $remoteCount != $symCount($expectedCount) (remoteCount != serverCount)\n${remoteList}\n======================================\n"
+            remoteList=`ssh admin@${MapRoomToIP["$room"]} bash -c "'
+                cd $remoteFolder; ls ;'"`
+
+
+            newRemoteList=`echo ${remoteList} | sed 's/\s\+/\n/g'`
+            echo -e "ERROR!!!!$room $session $remoteCount != $symCount($expectedCount) (remoteCount != serverCount)\n${newRemoteList}\nExpect: ${mapSessionBackToID[$session]}\n======================================\n"
           fi
 #        fi
 

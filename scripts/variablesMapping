@@ -24,8 +24,10 @@ MapRoomToIP=(
 export MapRoomToIP
 
 defaultFolder="/Users/admin/Desktop/${1}/"
-function sshRoom {
-ssh admin@${MapRoomToIP[$1]}; -t "cd $defaultFolder; bash --login";
+function sshRoom (){
+defaultFolder="/Users/admin/Desktop/${1}/"
+#echo $defaultFolder;
+ssh admin@${MapRoomToIP[$1]} -t "cd $defaultFolder; echo \`pwd\`; bash --login;";
 } 
 export -f sshRoom
 
