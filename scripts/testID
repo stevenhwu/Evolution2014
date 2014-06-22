@@ -2,11 +2,14 @@
 
 if [  -n "${1}" ]
 then
-  pat="*_${1}.*"
-  list=`find ${LocalServer} -name ${pat}`
-  out="`echo $list | sed 's/\s/\n/g'`"
-  echo -e  "$out"
+  for id in $@
+  do
+    pat="*_${id}.*"
+    list=`find ${LocalServer} -name ${pat}`
+    out="`echo $list | sed 's/\s/\n/g'`"
+    echo -e  "$out\n================"
+  done
 else 
-  echo "error"
+  echo "error! no ID"
 fi 
 

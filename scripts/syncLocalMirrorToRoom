@@ -2,14 +2,34 @@
 ## rsync from materials server to each room
 #Two parameters, Room and Day
 
+#if [[ ! -n "${1}" || ${1} == "ALL" ||  ${1} == "all" ]]
+#then
+#  RoomList="${!MapRoomToIP[@]}"
+#  echo -e "Sync from Local to ALL Rooms: ${RoomList}."
+#else
+#  RoomList=$1
+#  echo -e "Sync from Local to Room ${RoomList} ONLY."
+#fi
+
+
 if [[ ! -n "${1}" || ${1} == "ALL" ||  ${1} == "all" ]]
 then
   RoomList="${!MapRoomToIP[@]}"
-  echo -e "Sync from Local to ALL Rooms: ${RoomList}."
+  echo -e "Sync from local to ALL Rooms: ${RoomList}."
+#  RoomList="`echo ${RoomList} |  sed 's/\s\+/\n/g' | sort`"
+#  RoomList="`echo ${RoomList} |  sed 's/\s\+/\n/g' | sort`i"
+  goodRoomList="`source ${scriptDir}/testPingAllRoom `"
 else
   RoomList=$1
-  echo -e "Sync from Local to Room ${RoomList} ONLY."
+  echo -e "Sync from local to ${RoomList} ONLY."
+  #RoomList="`echo ${RoomList} |  sed 's/\s\+/\n/g' | sort`"
+  goodRoomList="`source ${scriptDir}/testPingAllRoom \"${RoomList}\"`"
 fi
+
+
+
+
+
 
 if [ ! -n "${2}" ]
 then
@@ -17,7 +37,7 @@ then
   allDateCode="${MapDateToCode[${today}]}"
 elif [[ ${2} == "ALL" ||  ${2} == "all" ]]
   then
-  allDateCode="0 1 2 3 4"
+  allDateCode="2 3 4"
 else
   allDateCode=${2}
 fi
@@ -27,7 +47,7 @@ fi
 #oldDateCode=`echo "$dateCode-1" | bc`
 
 
-unset goodRoomList
+#unset goodRoomList
 ##declare goodRoomList
 #for room in $RoomList
 #do
@@ -42,8 +62,7 @@ unset goodRoomList
 #  fi
 #done
 #echo $goodRoomList
-
-goodRoomList="`source ${scriptDir}/testPingAllRoom`"
+#goodRoomList="`source ${scriptDir}/testPingAllRoom`"
 
 for dateCode in $allDateCode
 do

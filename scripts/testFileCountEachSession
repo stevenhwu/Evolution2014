@@ -9,15 +9,21 @@ if [[ ! -n "${1}" || ${1} == "ALL" ||  ${1} == "all" ]]
 then
   RoomList="${!MapRoomToIP[@]}"
   echo -e "Check ALL Rooms: ${RoomList}."
+#  RoomList="`echo ${RoomList} |  sed 's/\s\+/\n/g' | sort`"
+#  RoomList="`echo ${RoomList} |  sed 's/\s\+/\n/g' | sort`i"
+  goodRoomList="`source ${scriptDir}/testPingAllRoom `"
 else
   RoomList=$1
   echo -e "CheckRoom ${RoomList} ONLY."
+  #RoomList="`echo ${RoomList} |  sed 's/\s\+/\n/g' | sort`"
+  goodRoomList="`source ${scriptDir}/testPingAllRoom \"${RoomList}\"`"
 fi
 
 
 if [[ ! -n "${2}" || ${2} == "ALL" ||  ${2} == "all" ]]
 then
-  CheckSessionList=" 1A 1B 1C 1D 2A 2B 2C 2D 3A 3B 3C 3D 4A 4B 4C 4D "
+#  CheckSessionList=" 1A 1B 1C 1D 2A 2B 2C 2D 3A 3B 3C 3D 4A 4B 4C 4D "
+  CheckSessionList=" 2A 2B 2C 2D 3A 3B 3C 3D 4A 4B 4C 4D "
   echo -e "Check ALL sessions"
 elif [[ ${#2} -eq 1 ]]
 then
@@ -30,17 +36,18 @@ fi
 
 
 KEY="${!mapIDToSession[@]}"
-unset countIDPerSession
-declare -A countIDPerSession
+unset countIDPerSession mapSessionBackToID
+declare -A countIDPerSession mapSessionBackToID
 #echo ${mapIDToSession[9]}
 #echo $KEY
 
 for k in $KEY
 do
-    room=${mapIDToSession[$k]}
+    session=${mapIDToSession[$k]}
     #echo $k $room ${countIDPerSession[$room]}
     COUNTER=$((COUNTER + 1))
-    countIDPerSession[$room]=$(( countIDPerSession[$room]  +1))
+    countIDPerSession[$session]=$(( countIDPerSession[$session]  +1))
+    mapSessionBackToID[$session]="$k ${mapSessionBackToID[$session]}"
     #echo -e "${countIDPerSession[$room]}\n"
 done
 
@@ -59,7 +66,10 @@ done
 #    goodRoomList+=" $room"
 #  fi
 #done
-goodRoomList="`source ${scriptDir}/testPingAllRoom`"
+#echo "testFild $RoomList"
+#goodRoomList="`source ${scriptDir}/testPingAllRoom \"${RoomList}\"`"
+#goodRoomList="`echo  ${goodRoomList} | sed 's/\n/ /g'`"
+#RoomList="`echo ${RoomList} |  sed 's/\s\+/\n/g' | sort`"
 #echo "GoodRoomList: $goodRoomList"
 
 echo "Check XCD and links"
@@ -91,7 +101,7 @@ then
 	if [[ "$symCount" != "$expectedCount" ]]
       	then 
   		echo "Incomplete!!!!$room $session $symCount != $expectedCount (expected)"
-		echo -e "`ls $destFolder`\n========================\n"
+		echo -e "`ls $destFolder`\n${mapSessionBackToID[$session]}\n==============================\n"
 	fi
 
         #if [[ ${goodRoomList} == *${room}*  ]]
@@ -107,7 +117,7 @@ then
 
 	  if [[ "$remoteCount" != "$symCount" ]]
           then
-            echo -e "ERROR!!!!$room $session $remoteCount != $symCount($expectedCount) (remoteCount != serverCount)\n${remoteList}\n\n"
+            echo -e "ERROR!!!!$room $session $remoteCount != $symCount($expectedCount) (remoteCount != serverCount)\n${remoteList}\n======================================\n"
           fi
 #        fi
 

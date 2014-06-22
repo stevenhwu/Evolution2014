@@ -1,9 +1,14 @@
 #!/bin/bash
 
+
+export scriptDir="${HOME}/Evolution2014/scripts/"
+. ${scriptDir}/exportAllVariables
+
 if [[ ! -n "${1}" || ${1} == "ALL" ||  ${1} == "all" ]]
 then
   RoomList="${!MapRoomToIP[@]}"
   echo -e "Ping ALL Rooms: ${RoomList}." >&2
+  RoomList="`echo ${RoomList} |  sed 's/\s\+/\n/g' | sort`"
 else
   RoomList=$1
   echo -e "Ping Room ${RoomList} ONLY." >&2
