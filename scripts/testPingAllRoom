@@ -22,7 +22,9 @@ for room in $RoomList
 do
   remote=`ping -c 1 ${MapRoomToIP["$room"]}`
 #  echo -e "\n\n $room \n$remote"
-  if  `echo $remote | grep -q "Unreachable"`
+#a=`echo $remote | grep -q "nreachable"`
+#echo "=${a}="
+  if  `echo $remote | grep -q "nreachable"`
   then
     echo "ERROR!!!!!! unreachable $room" >&2
   else
@@ -30,5 +32,5 @@ do
     goodRoomList+=" $room"
   fi
 done
-echo "GoodRoomList: $goodRoomList" >&2
+echo "GoodRoomList: " >&2
 echo "$goodRoomList"

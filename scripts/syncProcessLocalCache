@@ -93,6 +93,8 @@ for sess in `ls ${LocalServerCache}/bysess/`;
 
         room=`echo $session | sed 's/.*_\(.*\)/\1/'`    
         dayCode=`echo $session | sed 's/\([01234]\)._.*/\1/'`
+#dayCode=`echo $session | sed 's/\([4]\)._.*/\1/'`
+#echo "=====================$dayCode"
         dayString=${MapDayCodeToDayString[$dayCode]}
         destFolder=${LocalServer}/${room}/${dayString}/${session}/
 

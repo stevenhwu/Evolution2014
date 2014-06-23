@@ -3,8 +3,13 @@
 
 export evoPrimaryIP="10.12.99.100"
 export evoSecondaryIP="10.12.99.101"
-export testLaptopIP="10.12.99.21"
+export testLaptopIP="10.12.99.22"
 export toTestingLaptop="admin@${testLaptopIP}:~/Downloads/"
+
+export testLaptopIP2="10.12.99.23"
+export toTestingLaptop2="admin@${testLaptopIP2}:~/Downloads/"
+
+
 
 alias sshPrimary='ssh evo14@$evoPrimaryIP'
 alias sshSecondary='ssh evo14@$evoSecondaryIP'
