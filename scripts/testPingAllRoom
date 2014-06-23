@@ -24,7 +24,7 @@ do
 #  echo -e "\n\n $room \n$remote"
   if  `echo $remote | grep -q "Unreachable"`
   then
-    echo "ERROR!! unreachable $room" >&2
+    echo "ERROR!!!!!! unreachable $room" >&2
   else
 #    echo "GOOD. $room"
     goodRoomList+=" $room"

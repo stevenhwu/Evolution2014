@@ -37,7 +37,7 @@ then
   allDateCode="${MapDateToCode[${today}]}"
 elif [[ ${2} == "ALL" ||  ${2} == "all" ]]
   then
-  allDateCode="2 3 4"
+  allDateCode="3 4"
 else
   allDateCode=${2}
 fi

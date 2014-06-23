@@ -66,7 +66,7 @@ done
 for sess in `ls ${LocalServerCache}/bysess/`;
   do
   matchRoom=`echo $sess | sed 's/.*_\(.*\)/\1/'`
-  if [[  $matchRoom != "BallAB" && $matchRoom != "BalAB"  &&  $sess != "ievobioC_402"  ]]
+  if [[  $matchRoom != "BallAB" && $matchRoom != "BalAB"   ]]
   then
     for talk in `ls ${LocalServerCache}/bysess/$sess/P*`
     do 
@@ -75,6 +75,20 @@ for sess in `ls ${LocalServerCache}/bysess/`;
       if [ -z $session ]
 	then
 	    echo "Note: canceled talk $id $session"
+      elif [[ $session == ievobio* ]]
+        then 
+          room="402"
+          dayCode="4"
+          dayString=${MapDayCodeToDayString[$dayCode]}
+          destFolder=${LocalServer}/${room}/${dayString}/${session}/
+#      echo "ievobio ln -s $sess $session $dayCode $matchRoom $talk $talkRoom  "
+      
+          if [ ! -d $destFolder ]
+          then
+            mkdir -p $destFolder;
+          fi
+          ln -fs $talk $destFolder 
+
       else
 
         room=`echo $session | sed 's/.*_\(.*\)/\1/'`    
