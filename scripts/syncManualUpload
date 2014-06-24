@@ -10,15 +10,17 @@ if [  "$evoServerName" == "evo-primary" ]
     otherIP=${evoSecondaryIP}
 elif [  "$evoServerName" == "evo-secondary" ]
     then
+    exit 9
     otherIP=${evoPrimaryIP}
 fi
 echo $otherIP
 
 
+
 if [  -n $otherIP ]
 then
     rsync -e 'ssh' -az ${LocalServerManualUpload} evo14@${otherIP}:${LocalServerManualUpload}
-    rsync -e 'ssh' -az evo14@${otherIP}:${LocalServerManualUpload} ${LocalServerManualUpload}
+#    rsync -e 'ssh' -az evo14@${otherIP}:${LocalServerManualUpload} ${LocalServerManualUpload}
 else
     echo "Warning!! Running on other server other then evo-* server"
 fi

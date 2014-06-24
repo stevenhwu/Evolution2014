@@ -32,5 +32,5 @@ do
     goodRoomList+=" $room"
   fi
 done
-echo "GoodRoomList: " >&2
+echo "GoodRoomList: $goodRoomList" >&2
 echo "$goodRoomList"

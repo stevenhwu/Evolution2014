@@ -3,5 +3,6 @@
 #printenv
 export scriptDir="${HOME}/Evolution2014/scripts/"
 . ${scriptDir}/exportAllVariables
+#. ${scriptDir}/syncProcessLocalCache
 . ${scriptDir}/syncManualUpload
 
