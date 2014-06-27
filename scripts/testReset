@@ -1,0 +1,44 @@
+#!/bin/bash
+
+
+export scriptDir="${HOME}/Evolution2014/scripts/"
+. ${scriptDir}/exportAllVariables
+
+if [[  ${1} == "ALL" ||  ${1} == "all" ]]
+then
+  RoomList="${!MapRoomToIP[@]}"
+  echo -e "Reset ALL Rooms: ${RoomList}." >&2
+  RoomList="`echo ${RoomList} |  sed 's/\s\+/\n/g' | sort`"
+else
+  RoomList=$1
+  echo -e "Reset Room ${RoomList} ONLY." >&2
+fi
+
+
+echo "Check connections and reset" >&2
+unset goodRoomList
+declare goodRoomList
+for room in $RoomList
+do
+  remote=`ping -c 1 ${MapRoomToIP["$room"]}`
+#  echo -e "\n\n $room \n$remote"
+  if  `echo $remote | grep -q "Unreachable"`
+  then
+    echo "ERROR!! unreachable $room" >&2
+  else
+#    echo "GOOD. $room"
+    goodRoomList+=" $room"
+
+# remoteFolder="/Users/admin/Desktop/${room}/${dayString}/${session}"
+ #         grepString='Pre.*_[0-9]+\\..*'
+#    remoteList=`ssh admin@10.12.99.21 bash -c "
+    remoteList=`ssh admin@${MapRoomToIP["$room"]} bash -c "'
+		pkill -l Preview;
+		pkill -l PowerPoint;
+                '"`
+     echo -e "${room}\n$remoteList\n===================\n"
+
+  fi
+done
+echo "GoodRoomList: $goodRoomList" >&2
+echo "$goodRoomList"
